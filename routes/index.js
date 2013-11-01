@@ -6,7 +6,9 @@ mongoose.connect('mongodb://localhost/ZeeSocial');
 var db = mongoose.connection;
 
 exports.index = function(req, res){
-  res.render('index', { title: 'ZeeSocial' });
+  res.render('index', 
+		{ title: 'ZeeSocial',
+		  pagename: 'home' });
 };
 
 exports.register = function(req, res) {
@@ -69,14 +71,17 @@ exports.home = function(req, res) {
 
         res.render('home', {
           title: 'ZeeSocial',
-          user: doc
+          user: doc,
+		  pagename: 'home'
         });
 
     });
 
   } else if( !req.session.loggedIn && url === 'register' ) {
 
-      res.render('register', {title: 'register'});
+      res.render('register', {
+		  title: 'register'	,
+		  pagename: 'register'});
 
   } else {
 
@@ -94,7 +99,8 @@ exports.user_check_in = function(req, res) {
 
         res.render('user_check_in', {
           title: 'ZeeSocial',
-          user: doc
+          user: doc,
+		  pagename: 'user_check_in'
         });
 
     });
@@ -114,7 +120,8 @@ exports.user_lines = function(req, res) {
 
         res.render('user_lines', {
           title: 'ZeeSocial',
-          user: doc
+          user: doc,
+		  pagename: 'user_lines'
         });
 
     });
@@ -134,7 +141,8 @@ exports.user_points = function(req, res) {
 
         res.render('user_points', {
           title: 'ZeeSocial',
-          user: doc
+          user: doc,
+		  pagename: 'user_points'
         });
 
     });
@@ -154,7 +162,8 @@ exports.user_profile = function(req, res) {
 
         res.render('user_profile', {
           title: 'ZeeSocial',
-          user: doc
+          user: doc,
+		  pagename: 'user_profile'
         });
 
     });
