@@ -250,6 +250,7 @@ body > header #branding {
 }
 body > header #branding h1 {
   font-size: 22px;
+  color: #FFF;
 }
 body > header .btn-navbar-mobile {
   margin: 10px 0;

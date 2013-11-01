@@ -1,12 +1,12 @@
 var mongoose = require('mongoose'),
     account  = require('../models/account')(mongoose);
 
-mongoose.connect('mongodb://localhost/BeeSocial');
+mongoose.connect('mongodb://localhost/ZeeSocial');
 
 var db = mongoose.connection;
 
 exports.index = function(req, res){
-  res.render('index', { title: 'BeeSocial' });
+  res.render('index', { title: 'ZeeSocial' });
 };
 
 exports.register = function(req, res) {
@@ -68,7 +68,7 @@ exports.home = function(req, res) {
         var socket = require('./socket');
 
         res.render('home', {
-          title: 'BeeSocial',
+          title: 'ZeeSocial',
           user: doc
         });
 
@@ -86,6 +86,86 @@ exports.home = function(req, res) {
 
 }
 
+exports.user_check_in = function(req, res) {
+
+  if ( req.session.loggedIn ) {
+
+    account.findById(req.session.accountId, function(doc) {
+
+        res.render('user_check_in', {
+          title: 'ZeeSocial',
+          user: doc
+        });
+
+    });
+
+  } else {
+
+    res.send(401);
+
+  }
+}
+
+exports.user_lines = function(req, res) {
+
+  if ( req.session.loggedIn ) {
+
+    account.findById(req.session.accountId, function(doc) {
+
+        res.render('user_lines', {
+          title: 'ZeeSocial',
+          user: doc
+        });
+
+    });
+
+  } else {
+
+    res.send(401);
+
+  }
+}
+
+exports.user_points = function(req, res) {
+
+  if ( req.session.loggedIn ) {
+
+    account.findById(req.session.accountId, function(doc) {
+
+        res.render('user_points', {
+          title: 'ZeeSocial',
+          user: doc
+        });
+
+    });
+
+  } else {
+
+    res.send(401);
+
+  }
+}
+
+exports.user_profile = function(req, res) {
+
+  if ( req.session.loggedIn ) {
+
+    account.findById(req.session.accountId, function(doc) {
+
+        res.render('user_profile', {
+          title: 'ZeeSocial',
+          user: doc
+        });
+
+    });
+
+  } else {
+
+    res.send(401);
+
+  }
+}
+
 exports.inbox = function(req, res) {
 
   if ( req.session.loggedIn ) {
@@ -93,7 +173,7 @@ exports.inbox = function(req, res) {
     account.findById(req.session.accountId, function(doc) {
 
         res.render('inbox', {
-          title: 'BeeSocial',
+          title: 'ZeeSocial',
           user: doc
         });
 

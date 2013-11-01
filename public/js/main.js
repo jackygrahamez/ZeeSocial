@@ -1,5 +1,4 @@
 (function($, window, undefined) {
-
  window.Chat = {
     socket : null,
 
