@@ -55,13 +55,14 @@ module.exports = function(mongoose) {
   var checkInMethod = function(location, geolocation, line_length, callback) {
 	  var d = new Date();	  
 	    console.log('model checkInMethod ' + d + ' ' + location + ", " + geolocation + ", " + line_length);
+	    callback();
 	  };
-
+	  
   var findById = function(id, callback) {
 
-    account.findOne({_id:id}, function(err,doc) {
+  account.findOne({_id:id}, function(err,doc) {
       callback(doc);
-    });
+  });
 
   };
 

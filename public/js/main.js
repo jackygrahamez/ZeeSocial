@@ -69,7 +69,7 @@ function showPosition(position)
   x.innerHTML="Latitude: " + position.coords.latitude + 
   "<br>Longitude: " + position.coords.longitude;
   $("#coords").val(position.coords.latitude+", "+position.coords.longitude);
-  $("#length").val(lineLength);
+  $("#line_length").val(lineLength);
   }
 function showError(error)
   {
