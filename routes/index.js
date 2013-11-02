@@ -95,9 +95,6 @@ exports.user_check_in = function(req, res) {
     var location = req.param('location', ''),
     geolocation  = req.param('geolocation', ''),
     line_length     = req.param('line_length', '');
-	  //var d = new Date();	  
-	    //console.log('checkInMethod ' + d + ' ' + location + ", " + geolocation + ", " + line_length);
-
     
   if ( req.session.loggedIn ) {
 	console.log("user logged in");
@@ -112,14 +109,12 @@ exports.user_check_in = function(req, res) {
               });    		
     	}
     	else {
-    		 account.checkInMethod(location, geolocation, line_length, function(err) {
+    		 account.checkInMethod(location, geolocation, line_length, req.session.accountId, function(err) {
     			 console.log("callback");
             if (err) {
               return console.log(err);
             }
-            //console.log('could not check in');
-            //res.redirect('/');
-            //res.redirect('/' + doc.username);
+
             res.render('user_check_in', {
                 title: 'ZeeSocial',
                 user: doc,

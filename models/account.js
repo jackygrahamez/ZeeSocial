@@ -16,7 +16,8 @@ module.exports = function(mongoose) {
         year:    { type: Number }
       },
       photoUrl:  { type: String },
-      biography: { type: String }
+      biography: { type: String },
+      check_in: { type: String }
   });
 
   var account = mongoose.model('Account', userSchema);
@@ -45,17 +46,33 @@ module.exports = function(mongoose) {
         last: lastName
       },
       username: firstName.toLowerCase() + '.' + lastName.toLowerCase(),
-      password: shaSum.digest('hex')
+      password: shaSum.digest('hex'),
+      check_in: ""
     });
 
     user.save(callback);
     console.log('Save command was sent');
   };
   
-  var checkInMethod = function(location, geolocation, line_length, callback) {
+  var checkInMethod = function(location, geolocation, line_length, accountId, callback) {
 	  var d = new Date();	  
 	    console.log('model checkInMethod ' + d + ' ' + location + ", " + geolocation + ", " + line_length);
-	    callback();
+	    checkIn = new Object();
+	    checkIn.location = location;
+	    checkIn.geolocation = geolocation;
+	    checkIn.line_length = line_length;
+	    
+	    console.log(checkIn);
+	    
+	    account.update(
+	    {"_id" : accountId},
+	    {"$set": { check_in : checkIn }},
+	        function(error, account){
+	           if( error ) callback(error);
+	           else callback(null, account);}
+	    );
+	    
+	    //callback();
 	  };
 	  
   var findById = function(id, callback) {
