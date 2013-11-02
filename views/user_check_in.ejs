@@ -6,7 +6,25 @@
 		<h2 class="light no-margin">Check-in</h2>
     </header>
     <section class="bordered">
-
+        <div class="container-fluid">
+			<button onclick="getLocation(1)">AT LEAST 30 MINUTES</button>
+			<button onclick="getLocation(2)">AT LEAST 1 HOUR</button>
+			<button onclick="getLocation(3)">MAYBE 2 HOURS!</button>
+			<button onclick="getLocation(4)">AT LEAST A DAY!</button>        
+			<form method="post" action="/<%= user.username %>/user_check_in/" class="form-skin">
+				<fieldset>
+				  <p id="demo">How Long Is The Line:</p>
+				  <label>My Location:</label>
+				  <input type="text" name="location" placeholder="Location" />
+				  <input id="coords" type="text" name="geolocation" placeholder="geolocation" />
+				  <input id="length" type="text" name="length" placeholder="length" />
+				</fieldset>						
+				<p>
+				  <input type="submit" value="check in" class="btn btn-flat btn-blue no-radius"/>
+				</p>
+			</form>
+        </div>    
     </section>
 </section>
 
+<% include footer %>

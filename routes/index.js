@@ -92,17 +92,33 @@ exports.home = function(req, res) {
 }
 
 exports.user_check_in = function(req, res) {
+    var location = req.param('location', ''),
+    geolocation  = req.param('geolocation', ''),
+    line_length     = req.param('length', '');
+	  var d = new Date();	  
+	    console.log('checkInMethod ' + d + ' ' + location + ", " + geolocation + ", " + line_length);
 
+    
   if ( req.session.loggedIn ) {
-
+	console.log("user logged in");
     account.findById(req.session.accountId, function(doc) {
 
-        res.render('user_check_in', {
-          title: 'ZeeSocial',
-          user: doc,
-		  pagename: 'user_check_in'
-        });
-
+    	if (location == null | location.length == 0) {
+            res.render('user_check_in', {
+                title: 'ZeeSocial',
+                user: doc,
+      		  	pagename: 'user_check_in'
+              });    		
+    	}
+    	else {
+    		 account.checkInMethod(location, geolocation, line_length, function(err) {
+            if (err) {
+              return console.log(err);
+            }
+            console.log('could not check in');
+            res.redirect('/');
+          });      		
+    	}
     });
 
   } else {

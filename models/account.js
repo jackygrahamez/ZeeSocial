@@ -51,6 +51,11 @@ module.exports = function(mongoose) {
     user.save(callback);
     console.log('Save command was sent');
   };
+  
+  var checkInMethod = function(location, geolocation, line_length, callback) {
+	  var d = new Date();	  
+	    console.log('model checkInMethod ' + d + ' ' + location + ", " + geolocation + ", " + line_length);
+	  };
 
   var findById = function(id, callback) {
 
@@ -73,6 +78,7 @@ module.exports = function(mongoose) {
     register: register,
     findById: findById,
     findByUsername: findByUsername,
-    account: account
+    account: account,
+    checkInMethod: checkInMethod
   }
 }
