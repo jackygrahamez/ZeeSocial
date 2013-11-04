@@ -20,7 +20,9 @@ module.exports = function(mongoose) {
       check_in: {
     	  location: { type: String },
     	  geolocation: { type: String },
-    	  line_length: { type: String }
+    	  line_length: { type: Number },
+    	  check_in_time: { type: Date, expires: '24h' },
+    	  check_in_expire_time: { type: Date, expires: '24h' }
       }
   });
 
@@ -59,12 +61,20 @@ module.exports = function(mongoose) {
   };
   
   var checkInMethod = function(location, geolocation, line_length, accountId, callback) {
-	  var d = new Date();	  
-	    console.log('model checkInMethod ' + d + ' ' + location + ", " + geolocation + ", " + line_length);
+	  	var d1 = new Date(),
+	  	  	d2 = new Date(d1);	
+	  	var line_length = line_length * 60 * 1000;
+	  	var expireTimeStamp = parseInt(d1.getTime()) + parseInt(line_length); 
+	  	d2.setTime( expireTimeStamp );
+
+	  	
+	    console.log('model checkInMethod ' + d1 + ' ' + location + ", " + geolocation + ", " + line_length);
 	    checkIn = new Object();
 	    checkIn.location = location;
 	    checkIn.geolocation = geolocation;
 	    checkIn.line_length = line_length;
+	    checkIn.check_in_time = d1;
+	    checkIn.check_in_expire_time = d2;
 	    
 	    console.log(checkIn);
 	    

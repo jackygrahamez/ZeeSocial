@@ -8,10 +8,10 @@
     <section class="bordered">
         <div class="container-fluid">
         	<p><%= checkin_status %></p>
-			<button onclick="getLocation(1)">AT LEAST 30 MINUTES</button>
-			<button onclick="getLocation(2)">AT LEAST 1 HOUR</button>
-			<button onclick="getLocation(3)">MAYBE 2 HOURS!</button>
-			<button onclick="getLocation(4)">AT LEAST A DAY!</button>        
+			<button onclick="getLocation(30)">AT LEAST 30 MINUTES</button>
+			<button onclick="getLocation(60)">AT LEAST 1 HOUR</button>
+			<button onclick="getLocation(90)">MAYBE 2 HOURS!</button>
+			<button onclick="getLocation(1440)">AT LEAST A DAY!</button>        
 			<form method="post" action="/<%= user.username %>/user_check_in/" class="form-skin">
 				<fieldset>
 				  <p id="demo">How Long Is The Line:</p>
