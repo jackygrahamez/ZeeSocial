@@ -17,7 +17,11 @@ module.exports = function(mongoose) {
       },
       photoUrl:  { type: String },
       biography: { type: String },
-      check_in: { type: String }
+      check_in: {
+    	  location: { type: String },
+    	  geolocation: { type: String },
+    	  line_length: { type: String }
+      }
   });
 
   var account = mongoose.model('Account', userSchema);
@@ -27,7 +31,7 @@ module.exports = function(mongoose) {
     shaSum.update(password);
 
     account.findOne({email:email,password:shaSum.digest('hex')},function(err,doc){
-      console.log('doc ', doc)
+      console.log('doc ', doc);
       callback(doc);
     });
 
@@ -75,6 +79,14 @@ module.exports = function(mongoose) {
 	    //callback();
 	  };
 	  
+  var findAll = function(callback) {
+
+	    account.find( function(err,doc) {
+	      callback(doc);
+	    });
+
+	  };	  
+	  
   var findById = function(id, callback) {
 
   account.findOne({_id:id}, function(err,doc) {
@@ -97,6 +109,7 @@ module.exports = function(mongoose) {
     findById: findById,
     findByUsername: findByUsername,
     account: account,
-    checkInMethod: checkInMethod
+    checkInMethod: checkInMethod,
+    findAll: findAll
   }
 }

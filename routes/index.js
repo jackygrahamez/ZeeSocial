@@ -135,16 +135,25 @@ exports.user_check_in = function(req, res) {
 exports.user_lines = function(req, res) {
 
   if ( req.session.loggedIn ) {
+	
+	account.findAll( function(doc) {
+		var userLines = doc;
+		console.log("user lines "+userLines.length);
+		for (var i=0;i<userLines.length;i++) {
+			console.log("user lines "+typeof(userLines[i]));
+			console.log("user lines "+userLines[i].check_in);
+		}
+	    account.findById(req.session.accountId, function(doc) {
 
-    account.findById(req.session.accountId, function(doc) {
+	        res.render('user_lines', {
+	          title: 'ZeeSocial',
+	          user: doc,
+			  pagename: 'user_lines',
+			  lines: userLines
+	        });
 
-        res.render('user_lines', {
-          title: 'ZeeSocial',
-          user: doc,
-		  pagename: 'user_lines'
-        });
-
-    });
+	    });		
+	});
 
   } else {
 

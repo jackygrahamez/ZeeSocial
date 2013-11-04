@@ -6,7 +6,15 @@
 		<h2 class="light no-margin">Lines</h2>
     </header>
     <section class="bordered">
-
+		<ul>
+			<% for(var i=0; i<lines.length; i++) {%>
+				   <%if (lines[i].check_in.line_length) { %>
+			   		<li> 				   
+				   		<%= lines[i].check_in %>
+				   <% } %>
+				   </li>
+			<% } %>
+		</ul>
     </section>
 </section>
 
