@@ -83,7 +83,7 @@ exports.home = function(req, res) {
 		  title: 'register'	,
 		  pagename: 'register'});
 
-  } else {
+  }  else {
 
     res.redirect('/');
 
@@ -204,16 +204,16 @@ exports.user_profile = function(req, res) {
   }
 }
 
-exports.user_message = function(req, res) {
+exports.get_user_message = function(req, res) {
 
 	  if ( req.session.loggedIn ) {
 
 	    account.findById(req.session.accountId, function(doc) {
 
-	        res.render('user_profile', {
+	        res.render('user_message', {
 	          title: 'ZeeSocial',
 	          user: doc,
-			  pagename: 'user_profile'
+			  pagename: 'user_message'
 	        });
 
 	    });
@@ -225,6 +225,24 @@ exports.user_message = function(req, res) {
 	  }
 	}
 
+exports.post_user_message = function(req, res) {
+    var message = req.param('message', '');
+
+    if ( null == user_message || user_message.length < 1 ) {
+      res.send(400);
+      return;
+    }
+
+    account.findById(req.session.accountId, function(doc) {
+
+        res.render('user_message', {
+          title: 'ZeeSocial',
+          user: doc,
+		  pagename: 'user_message'
+        });
+
+    });
+}
 
 exports.inbox = function(req, res) {
 
