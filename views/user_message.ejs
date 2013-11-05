@@ -6,7 +6,15 @@
 		<h2 class="light no-margin">Message</h2>
     </header>
     <section class="bordered">
-
+		<form method="post" action="/<%= user.username %>/user_message/" class="form-skin">
+			<fieldset>
+			  <label>Post a message:</label>
+			  <textarea id="message" name="message" rows="4" cols="50"></textarea>
+			</fieldset>						
+			<p>
+			  <input type="submit" value="Post Message" class="btn btn-flat btn-blue no-radius"/>
+			</p>
+		</form>
     </section>
 </section>
 

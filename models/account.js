@@ -22,8 +22,7 @@ module.exports = function(mongoose) {
     	  check_in_expire_time: { type: Date, expires: '24h' }
       },
       check_in_message: {
-    	  _CID: ObjectId,
-    	  message_thread : []
+    	  message_thread : [{ uid: ObjectId, message: { type: String}}]
       }
   });
 
@@ -68,9 +67,8 @@ module.exports = function(mongoose) {
 	  	var expireTimeStamp = parseInt(d1.getTime()) + parseInt(line_length); 
 	  	d2.setTime( expireTimeStamp );
 
-	  	
-	    console.log('model checkInMethod ' + d1 + ' ' + location + ", " + geolocation + ", " + line_length);
-	    checkIn = new Object();
+	  	console.log('model checkInMethod ' + d1 + ' ' + location + ", " + geolocation + ", " + line_length);
+	    var checkIn = new Object();
 	    checkIn.location = location;
 	    checkIn.geolocation = geolocation;
 	    checkIn.line_length = line_length;
@@ -123,6 +121,26 @@ module.exports = function(mongoose) {
     });
 
   };
+  
+  var post_message = function(accountId, message, callback) {
+	  	console.log(accountId);
+	  	var d1 = new Date();
+	    userMessage = new Object();
+	    userMessage.uid = accountId;
+	    userMessage.message = message;
+	    userMessage.time = d1;
+	    
+	    console.log('Posting message: ' + message);
+
+	    account.update(
+	    	    {"_id" : accountId},
+	    	    {"$push": { 'check_in_message.message_thread' : userMessage }},
+	    	        function(error, account){
+	    	           if( error ) callback(error);
+	    	           else callback(null, account);
+	    	    });	    
+
+  };
 
   return {
     login: login,
@@ -132,6 +150,7 @@ module.exports = function(mongoose) {
     account: account,
     checkInMethod: checkInMethod,
     findAll: findAll,
-    findCurrent: findCurrent
+    findCurrent: findCurrent,
+    post_message: post_message
   }
 }

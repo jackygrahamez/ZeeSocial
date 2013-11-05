@@ -42,8 +42,9 @@ app.get('/:username/user_lines/', routes.user_lines);
 app.get('/:username/user_points/', routes.user_points);
 app.get('/:username/user_profile/', routes.user_profile);
 
-app.get('/:username/user_message/', routes.get_user_message);
-app.post('/:username/user_message/', routes.post_user_message);
+app.get('/:username/user_message/', routes.user_message);
+app.post('/:username/user_message/', routes.user_message);
+
 app.post('/login', routes.login);
 app.post('/register', routes.register);
 
