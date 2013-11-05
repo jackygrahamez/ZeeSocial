@@ -19,11 +19,14 @@ module.exports = function(mongoose) {
     	  geolocation: { type: String },
     	  line_length: { type: Number },
     	  check_in_time: { type: Date, expires: '24h' },
-    	  check_in_expire_time: { type: Date, expires: '24h' }
-      },
-      check_in_message: {
-    	  message_thread : [{ uid: ObjectId, message: { type: String}}]
+    	  check_in_expire_time: { type: Date, expires: '24h' },
+    	  check_in_message: {
+        	  message_thread : [{ uid: ObjectId, 
+        		  				message: { type: String},
+        		  				time: { type: Date, expires: '24h' }}]
+          }
       }
+      
   });
 
   var account = mongoose.model('Account', userSchema);
@@ -134,7 +137,7 @@ module.exports = function(mongoose) {
 
 	    account.update(
 	    	    {"_id" : accountId},
-	    	    {"$push": { 'check_in_message.message_thread' : userMessage }},
+	    	    {"$push": { 'check_in.check_in_message.message_thread' : userMessage }},
 	    	        function(error, account){
 	    	           if( error ) callback(error);
 	    	           else callback(null, account);

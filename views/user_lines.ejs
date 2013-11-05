@@ -9,8 +9,19 @@
 		<ul>
 			<% for(var i=0; i<lines.length; i++) {%>
 				   <%if (lines[i].check_in.line_length) { %>
-			   		<li> 				   
-				   		<%= lines[i].check_in.location %> <%= lines[i].check_in.check_in_expire_time %> 
+			   		<li> 
+			   		<form method="post" action="/<%= user.username %>/user_message/" class="form-skin">
+						<fieldset>
+						  <p id="demo">How Long Is The Line:</p>
+						  <label>Check In Properties:</label>
+						  <input id="cID" type="text" name="cID" placeholder="Location" value="<%= lines[i]._id %>" />
+						  <input id="cID" type="text" name="cID" placeholder="Location" value="<%= lines[i].check_in.location %>" />
+						</fieldset>
+						<p>
+						  <input type="submit" value="Message" class="btn btn-flat btn-blue no-radius"/>
+						</p>										   		
+			   		</form>				   
+				   		<!--<%= lines[i]._id %> <%= lines[i].check_in.location %> <%= lines[i].check_in.check_in_expire_time %>--> 
 				   <% } %>
 				   </li>
 			<% } %>

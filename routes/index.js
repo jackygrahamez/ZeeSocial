@@ -203,28 +203,7 @@ exports.user_profile = function(req, res) {
 
   }
 }
-/*
-exports.get_user_message = function(req, res) {
 
-	  if ( req.session.loggedIn ) {
-
-	    account.findById(req.session.accountId, function(doc) {
-
-	        res.render('user_message', {
-	          title: 'ZeeSocial',
-	          user: doc,
-			  pagename: 'user_message'
-	        });
-
-	    });
-
-	  } else {
-
-	    res.send(401);
-
-	  }
-	}
-*/
 exports.user_message = function(req, res) {
 	console.log("user message");
     var message = req.param('message', '');
@@ -266,42 +245,7 @@ exports.user_message = function(req, res) {
     });
 }
 
-/*
-if ( req.session.loggedIn ) {
-	console.log("user logged in");
-    account.findById(req.session.accountId, function(doc) {
 
-    	if (location == null | location.length == 0) {
-            res.render('user_check_in', {
-                title: 'ZeeSocial',
-                user: doc,
-      		  	pagename: 'user_check_in',
-          		checkin_status: ''
-              });    		
-    	}
-    	else {
-    		 account.checkInMethod(location, geolocation, line_length, req.session.accountId, function(err) {
-    			 console.log("callback");
-            if (err) {
-              return console.log(err);
-            }
-
-            res.render('user_check_in', {
-                title: 'ZeeSocial',
-                user: doc,
-      		  	pagename: 'user_check_in',
-      		  	checkin_status: 'checked in'
-              });               
-          });      		
-    	}
-    });
-
-  } else {
-
-    res.send(401);
-
-  }
-*/
 exports.inbox = function(req, res) {
 
   if ( req.session.loggedIn ) {
