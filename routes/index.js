@@ -136,7 +136,7 @@ exports.user_lines = function(req, res) {
 
   if ( req.session.loggedIn ) {
 	
-	account.findAll( function(doc) {
+	account.findCurrent( function(doc) {
 		var userLines = doc;
 		console.log("user lines "+userLines.length);
 		for (var i=0;i<userLines.length;i++) {

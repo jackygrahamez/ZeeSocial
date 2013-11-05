@@ -1,7 +1,10 @@
 var crypto = require('crypto');
 
 module.exports = function(mongoose) {
-
+	
+  var Schema = mongoose.Schema,
+  ObjectId = Schema.ObjectId;
+	
   var userSchema = new mongoose.Schema({
       email:     { type: String, unique: true },
       password:  { type: String },
@@ -10,19 +13,17 @@ module.exports = function(mongoose) {
         first:   { type: String },
         last:    { type: String }
       },
-      birthday: {
-        day:     { type: Number, min: 1, max: 31, required: false },
-        month:   { type: Number, min: 1, max: 12, required: false },
-        year:    { type: Number }
-      },
       photoUrl:  { type: String },
-      biography: { type: String },
       check_in: {
     	  location: { type: String },
     	  geolocation: { type: String },
     	  line_length: { type: Number },
     	  check_in_time: { type: Date, expires: '24h' },
     	  check_in_expire_time: { type: Date, expires: '24h' }
+      },
+      check_in_message: {
+    	  _CID: ObjectId,
+    	  message_thread : []
       }
   });
 
@@ -97,6 +98,16 @@ module.exports = function(mongoose) {
 
 	  };	  
 	  
+  var findCurrent = function(callback) {
+	  var now = new Date();
+	    account.find({'check_in.check_in_expire_time': {"$gt": now}}, function(err,doc) {
+	      callback(doc);
+	    });
+
+	  };	  
+	  
+// db.accounts.find({'check_in.check_in_expire_time': {"$lt": now}});	  
+	  
   var findById = function(id, callback) {
 
   account.findOne({_id:id}, function(err,doc) {
@@ -120,6 +131,7 @@ module.exports = function(mongoose) {
     findByUsername: findByUsername,
     account: account,
     checkInMethod: checkInMethod,
-    findAll: findAll
+    findAll: findAll,
+    findCurrent: findCurrent
   }
 }
