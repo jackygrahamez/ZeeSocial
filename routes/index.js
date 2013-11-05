@@ -204,6 +204,28 @@ exports.user_profile = function(req, res) {
   }
 }
 
+exports.user_message = function(req, res) {
+
+	  if ( req.session.loggedIn ) {
+
+	    account.findById(req.session.accountId, function(doc) {
+
+	        res.render('user_profile', {
+	          title: 'ZeeSocial',
+	          user: doc,
+			  pagename: 'user_profile'
+	        });
+
+	    });
+
+	  } else {
+
+	    res.send(401);
+
+	  }
+	}
+
+
 exports.inbox = function(req, res) {
 
   if ( req.session.loggedIn ) {
