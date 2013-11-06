@@ -141,7 +141,7 @@ module.exports = function(mongoose) {
 	    console.log('Posting message: ' + message);
 
 	    account.update(
-	    	    {"_id" : accountId},
+	    	    {"_id" : cID},
 	    	    {"$push": { 'check_in.check_in_message.message_thread' : userMessage }},
 	    	        function(error, account){
 	    	           if( error ) callback(error);

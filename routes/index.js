@@ -214,16 +214,19 @@ exports.user_message = function(req, res) {
       	return;	
     } 	
     else if ( null == message || message.length < 1 ) {
-        account.findById(cID, function(doc) {
+    account.findById(cID, function(messages) {
+        account.findById(req.session.accountId, function(doc) {
         	console.log("find by id");
             res.render('user_message', {
               title: 'ZeeSocial',
               user: doc,
     		  pagename: 'user_message',
-    		  cID: cID
+    		  cID: cID,
+			  messages: messages
             });
 
         });
+      });  
       return;
     }
     
@@ -237,15 +240,16 @@ exports.user_message = function(req, res) {
 
       });    
     
-    account.findById(req.session.accountId, function(doc) {
-
-        res.render('user_message', {
-          title: 'ZeeSocial',
-          user: doc,
-		  pagename: 'user_message',
-		  cID: cID
-        });
-
+    account.findById(cID, function(messages) {
+    	account.findById(req.session.accountId, function(doc) {
+	        res.render('user_message', {
+	          title: 'ZeeSocial',
+	          user: doc,
+			  pagename: 'user_message',
+			  cID: cID,
+			  messages: messages
+	        });
+		});
     });
 }
 
