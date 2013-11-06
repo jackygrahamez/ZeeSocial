@@ -118,6 +118,15 @@ module.exports = function(mongoose) {
   });
 
   };
+  
+  var findUsernameById = function(id, callback) {
+
+	  account.findOne({_id:id}, {_id: 0, username: 1}, function(err,doc) {
+	      callback(doc);
+	  });
+
+	  };
+  
 
   var findByUsername = function(id, callback) {
 
@@ -159,6 +168,7 @@ module.exports = function(mongoose) {
     checkInMethod: checkInMethod,
     findAll: findAll,
     findCurrent: findCurrent,
-    post_message: post_message
+    post_message: post_message,
+    findUsernameById: findUsernameById
   }
 }
