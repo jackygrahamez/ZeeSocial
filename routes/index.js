@@ -67,14 +67,6 @@ exports.home = function(req, res) {
   if ( req.session.loggedIn && url !== 'register') {
 	//console.log("home "+req.session.accountId);
   	account.findUsernameById(req.session.accountId, function(username) {	
-
-		//username = username.trim();
-		//url =  url.trim();
-  		console.log("username "+username.username+" length "+username.username.length);
-		console.log("url " + url + " length "+url.length);
-		console.log(username.username.indexOf(url));
-		console.log(username.username.indexOf("blah"));
-		console.log("comparing "+ (username.username == url));
 		
 	if (username.username === url) {
 	    account.findByUsername({username: url}, function(doc) {
@@ -86,7 +78,10 @@ exports.home = function(req, res) {
 				  pagename: 'home'
 		        });
 	    	});
-  		}	    
+  		}	
+	else {
+		res.redirect('/' +username.username);
+	}
     });
 
 
