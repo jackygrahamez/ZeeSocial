@@ -21,7 +21,9 @@ module.exports = function(mongoose) {
     	  check_in_time: { type: Date, expires: '24h' },
     	  check_in_expire_time: { type: Date, expires: '24h' },
     	  check_in_message: {
-        	  message_thread : [{ uid: ObjectId, 
+        	  message_thread : [{ 
+        		  				cID: ObjectId,
+        		  				uid: ObjectId, 
         		  				message: { type: String},
         		  				time: { type: Date, expires: '24h' }}]
           }
@@ -125,10 +127,13 @@ module.exports = function(mongoose) {
 
   };
   
-  var post_message = function(accountId, message, callback) {
-	  	console.log(accountId);
+  var post_message = function(cID, accountId, message, callback) {
+	    console.log("post_message");
+	  	console.log("the cID " + accountId);
+	  	console.log("the accountID " + accountId);
 	  	var d1 = new Date();
 	    userMessage = new Object();
+	    userMessage.cID = cID;
 	    userMessage.uid = accountId;
 	    userMessage.message = message;
 	    userMessage.time = d1;

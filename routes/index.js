@@ -205,26 +205,29 @@ exports.user_profile = function(req, res) {
 }
 
 exports.user_message = function(req, res) {
-	console.log("user message");
-    var message = req.param('message', '');
-    console.log("get message parameter");
-    console.log("using req.session.accountId"+req.session.accountId);
-    if ( null == message || message.length < 1 ) {
-        account.findById(req.session.accountId, function(doc) {
+
+    var message = req.param('message', ''),
+    	cID = req.param('cID', '');
+    
+    if ( null == cID || cID.length < 1 ) {	
+        res.send(400);
+      	return;	
+    } 	
+    else if ( null == message || message.length < 1 ) {
+        account.findById(cID, function(doc) {
         	console.log("find by id");
             res.render('user_message', {
               title: 'ZeeSocial',
               user: doc,
-    		  pagename: 'user_message'
+    		  pagename: 'user_message',
+    		  cID: cID
             });
 
         });
       return;
     }
     
-    console.log("this is the req.session.accountId "+req.session.accountId);
-    
-    account.post_message(req.session.accountId, message, function(err) {
+    account.post_message(cID, req.session.accountId, message, function(err) {
 
         if (err) {
           return console.log(err);
@@ -239,7 +242,8 @@ exports.user_message = function(req, res) {
         res.render('user_message', {
           title: 'ZeeSocial',
           user: doc,
-		  pagename: 'user_message'
+		  pagename: 'user_message',
+		  cID: cID
         });
 
     });
