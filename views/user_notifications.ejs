@@ -6,7 +6,13 @@
 		<h2 class="light no-margin">Notifications</h2>
     </header>
     <section class="bordered">
-
+		<ul>
+		<% for(var i=0; i<user.check_in.check_in_message.message_thread.length; i++) {%>
+			<li>
+			<%= user.check_in.check_in_message.message_thread[i].message %>
+			</li>
+		<% } %>
+		</ul>
     </section>
 </section>
 
