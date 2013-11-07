@@ -26,6 +26,7 @@ module.exports = function(mongoose) {
         		  				oID: ObjectId,
         		  				fID: ObjectId,
         		  				tID: ObjectId,
+        		  				username: { type: String},
         		  				message: { type: String},
         		  				time: { type: Date, expires: '24h' }}]
           }
@@ -131,6 +132,13 @@ module.exports = function(mongoose) {
 
 	  };
   
+  var findFirstnameById = function(id, callback) {
+
+	  account.findOne({_id:id}, {_id: 0, name: 1}, function(err,doc) {
+	      callback(doc);
+	  });
+
+	  };	  
 
   var findByUsername = function(id, callback) {
 
@@ -138,17 +146,19 @@ module.exports = function(mongoose) {
       callback(doc);
     });
 
-  };
+      };
   
-  var post_message = function(cID, accountId, message, callback) {
+  var post_message = function(cID, accountId, message, username, callback) {
 	    console.log("post_message");
 	  	console.log("the cID " + accountId);
 	  	console.log("the accountID " + accountId);
+	  	console.log("username "+username);
 	  	var d1 = new Date();
 	    userMessage = new Object();
 	    userMessage.cID = cID;
 	    userMessage.oID = accountId;
 	    userMessage.message = message;
+	    userMessage.username = username;
 	    userMessage.time = d1;
 	    
 	    console.log('Posting message: ' + message);
@@ -190,6 +200,7 @@ module.exports = function(mongoose) {
     findCurrent: findCurrent,
     post_message: post_message,
     findUsernameById: findUsernameById,
+    findFirstnameById: findFirstnameById,
     ajaxTest: ajaxTest
   }
 }

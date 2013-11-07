@@ -279,7 +279,7 @@ exports.user_message = function(req, res) {
 
     var message = req.param('message', ''),
     	cID = req.param('cID', '');
-    
+    //console.log("req.params.id "+req.params.id);
     if ( null == cID || cID.length < 1 ) {	
         res.send(400);
       	return;	
@@ -307,21 +307,22 @@ exports.user_message = function(req, res) {
       });  
       return;
     }
-    
-    account.post_message(cID, req.session.accountId, message, function(err) {
-
-        if (err) {
-          return console.log(err);
-        }
-
-        console.log('Message Submitted');
-
-      });    
-    
-    account.findById(cID, function(messages) {
-    	account.findById(req.session.accountId, function(doc) {
-    		res.send("<li>" + message + "</li>");
-		});
+    account.findFirstnameById(req.session.accountId, function(username) {    
+	    account.post_message(cID, req.session.accountId, message, username.name.first, function(err) {
+	
+	        if (err) {
+	          return console.log(err);
+	        }
+	
+	        console.log('Message Submitted');
+	
+	      });    
+	    
+	    account.findById(cID, function(messages) {
+	    	account.findById(req.session.accountId, function(doc) {
+	    		res.send("<li>" + username.name.first + ": " + message + "</li>");
+			});
+	    });
     });
 }
 
