@@ -16,13 +16,20 @@
 			  <input id="post" type="button" value="Post Message" class="btn btn-flat btn-blue no-radius"/>
 			</p>
 		</form>
-		<ul>
+		<!--<ul>
 		<% for(var i=0; i<messages.check_in.check_in_message.message_thread.length; i++) {%>
 			<li>
 			<%= messages.check_in.check_in_message.message_thread[i].message %>
 			</li>
 		<% } %>
-		</ul>
+		</ul>-->
+		<ul>
+		<% for(var i=0; i<messageArray.length; i++) {%>
+			<li>
+			<%= messageArray[i].message %>
+			</li>
+		<% } %>
+		</ul>		
     </section>
 </section>
 

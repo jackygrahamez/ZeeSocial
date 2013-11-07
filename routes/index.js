@@ -286,6 +286,12 @@ exports.user_message = function(req, res) {
     } 	
     else if ( null == message || message.length < 1 ) {
     account.findById(cID, function(messages) {
+    	messageArray = [];
+		for(var i=0; i<messages.check_in.check_in_message.message_thread.length; i++) {
+			if (messages.check_in.check_in_message.message_thread[i].oID == req.session.accountId) {
+				messageArray.push(messages.check_in.check_in_message.message_thread[i]);
+			}
+		}    	
         account.findById(req.session.accountId, function(doc) {
         	console.log("find by id");
             res.render('user_message', {
@@ -293,7 +299,8 @@ exports.user_message = function(req, res) {
               user: doc,
     		  pagename: 'user_message',
     		  cID: cID,
-			  messages: messages
+			  messages: messages,
+			  messageArray: messageArray
             });
 
         });
