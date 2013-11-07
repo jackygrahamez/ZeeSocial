@@ -45,8 +45,14 @@ app.get('/:username/user_profile/', routes.user_profile);
 app.get('/:username/user_message/', routes.user_message);
 app.post('/:username/user_message/', routes.user_message);
 
+
+app.get('/:username/ajax', routes.ajax);
+app.post('/:username/ajax', routes.ajax);
+
 app.post('/login', routes.login);
 app.post('/register', routes.register);
+
+
 
 server.listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
