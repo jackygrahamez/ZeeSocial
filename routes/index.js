@@ -212,12 +212,15 @@ exports.ajax = function(req, res) {
             if (err) {
               return console.log(err);
             }
-
+            res.send("<p>test block</p>");
+            /*
             res.render('ajax', {
                 title: 'ZeeSocial',
                 user: doc,
       		  	pagename: 'ajax'
-              });               
+              });
+            */
+            
           });      		
     	}
     });
@@ -289,13 +292,7 @@ exports.user_message = function(req, res) {
     
     account.findById(cID, function(messages) {
     	account.findById(req.session.accountId, function(doc) {
-	        res.render('user_message', {
-	          title: 'ZeeSocial',
-	          user: doc,
-			  pagename: 'user_message',
-			  cID: cID,
-			  messages: messages
-	        });
+    		res.send("<li>" + message + "</li>");
 		});
     });
 }

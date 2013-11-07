@@ -29,7 +29,7 @@
 <% include footer %>
 
   <script type="text/javascript">
-
+	var markup;
       $('#post').click(function(){ 
       	console.log("post clicked"); 
 		var messageString = $("#message").val(),
@@ -41,7 +41,11 @@
            cache: false, 
            data: { message: messageString, cID: cIDString }, 
            success: function(data){
-              alert('Success!')
+           	  console.log(typeof(data));
+           	  markup = data;
+              //alert('Success!');
+              $("section ul").append(data);
+              
            }
            , error: function(jqXHR, textStatus, err){
                alert('text status '+textStatus+', err '+err)
