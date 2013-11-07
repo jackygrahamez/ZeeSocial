@@ -192,15 +192,14 @@ exports.user_points = function(req, res) {
 }
 
 exports.ajax = function(req, res) {
-    var location = req.param('location', ''),
-    geolocation  = req.param('geolocation', ''),
-    line_length     = req.param('line_length', '');
+    var field1 = req.param('field1', ''),
+    field2  = req.param('field2', '');
     
   if ( req.session.loggedIn ) {
 	console.log("user logged in");
     account.findById(req.session.accountId, function(doc) {
 
-    	if (location == null | location.length == 0) {
+    	if (field1 == null | field1 == 0) {
             res.render('ajax', {
                 title: 'ZeeSocial',
                 user: doc,
@@ -208,7 +207,7 @@ exports.ajax = function(req, res) {
               });    		
     	}
     	else {
-    		 account.checkInMethod(location, geolocation, line_length, req.session.accountId, function(err) {
+    		 account.ajaxTest(field1, field2, req.session.accountId, function(err) {
     			 console.log("callback");
             if (err) {
               return console.log(err);

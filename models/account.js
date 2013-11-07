@@ -27,7 +27,9 @@ module.exports = function(mongoose) {
         		  				message: { type: String},
         		  				time: { type: Date, expires: '24h' }}]
           }
-      }
+      },
+      field1: { type: Number },
+      field2: { type: Number }
       
   });
 
@@ -158,6 +160,22 @@ module.exports = function(mongoose) {
 	    	    });	    
 
   };
+  
+  var ajaxTest = function(field1, field2, accountId, callback) {
+	    console.log("field1 " +  field1);
+	  	console.log("field2 " + field2);
+	  	console.log("the accountID " + accountId);
+
+	    account.update(
+	    	    {"_id" : accountId},
+	    	    {"$set": { 'field1' : field1, 'field2': field2 }},
+	    	        function(error, account){
+	    	           if( error ) callback(error);
+	    	           else callback(null, account);
+	    	    });	    
+
+};
+  
 
   return {
     login: login,
@@ -169,6 +187,7 @@ module.exports = function(mongoose) {
     findAll: findAll,
     findCurrent: findCurrent,
     post_message: post_message,
-    findUsernameById: findUsernameById
+    findUsernameById: findUsernameById,
+    ajaxTest: ajaxTest
   }
 }
