@@ -13,7 +13,7 @@
 			  <textarea id="message" name="message" rows="4" cols="50"></textarea>
 			</fieldset>						
 			<p>
-			  <input type="submit" value="Post Message" class="btn btn-flat btn-blue no-radius"/>
+			  <input id="post" type="buton" value="Post Message" class="btn btn-flat btn-blue no-radius"/>
 			</p>
 		</form>
 		<ul>
@@ -27,3 +27,26 @@
 </section>
 
 <% include footer %>
+
+  <script type="text/javascript">
+
+      $('#post').click(function(){ 
+      	console.log("post clicked"); 
+		var messageString = $("#message").val(),
+			cIDString = $("#cID").val();
+		
+     $.ajax({ 
+           url: '/<%= user.username %>/user_message/',
+           type: 'POST',
+           cache: false, 
+           data: { message: messageString, cID: cIDString }, 
+           success: function(data){
+              alert('Success!')
+           }
+           , error: function(jqXHR, textStatus, err){
+               alert('text status '+textStatus+', err '+err)
+           }
+        })
+     });            
+
+  </script>
