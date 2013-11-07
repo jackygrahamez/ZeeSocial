@@ -170,16 +170,16 @@ exports.user_lines = function(req, res) {
   }
 }
 
-exports.user_points = function(req, res) {
+exports.user_notifications = function(req, res) {
 
   if ( req.session.loggedIn ) {
 
     account.findById(req.session.accountId, function(doc) {
 
-        res.render('user_points', {
+        res.render('user_notifications', {
           title: 'ZeeSocial',
           user: doc,
-		  pagename: 'user_points'
+		  pagename: 'user_notifications'
         });
 
     });
@@ -190,6 +190,27 @@ exports.user_points = function(req, res) {
 
   }
 }
+
+exports.user_points = function(req, res) {
+
+	  if ( req.session.loggedIn ) {
+
+	    account.findById(req.session.accountId, function(doc) {
+
+	        res.render('user_points', {
+	          title: 'ZeeSocial',
+	          user: doc,
+			  pagename: 'user_points'
+	        });
+
+	    });
+
+	  } else {
+
+	    res.send(401);
+
+	  }
+	}
 
 exports.ajax = function(req, res) {
     var field1 = req.param('field1', ''),
