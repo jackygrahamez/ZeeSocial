@@ -23,7 +23,9 @@ module.exports = function(mongoose) {
     	  check_in_message: {
         	  message_thread : [{ 
         		  				cID: ObjectId,
-        		  				oID: ObjectId, 
+        		  				oID: ObjectId,
+        		  				fID: ObjectId,
+        		  				tID: ObjectId,
         		  				message: { type: String},
         		  				time: { type: Date, expires: '24h' }}]
           }
@@ -103,9 +105,9 @@ module.exports = function(mongoose) {
 
 	  };	  
 	  
-  var findCurrent = function(callback) {
+  var findCurrent = function(id, callback) {
 	  var now = new Date();
-	    account.find({'check_in.check_in_expire_time': {"$gt": now}}, function(err,doc) {
+	    account.find({'check_in.check_in_expire_time': {"$gt": now}, '_id': {'$ne': id}}, function(err,doc) {
 	      callback(doc);
 	    });
 
