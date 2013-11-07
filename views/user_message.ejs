@@ -13,7 +13,7 @@
 			  <textarea id="message" name="message" rows="4" cols="50"></textarea>
 			</fieldset>						
 			<p>
-			  <input id="post" type="buton" value="Post Message" class="btn btn-flat btn-blue no-radius"/>
+			  <input id="post" type="button" value="Post Message" class="btn btn-flat btn-blue no-radius"/>
 			</p>
 		</form>
 		<ul>
@@ -34,23 +34,24 @@
       	console.log("post clicked"); 
 		var messageString = $("#message").val(),
 			cIDString = $("#cID").val();
-		
-     $.ajax({ 
-           url: '/<%= user.username %>/user_message/',
-           type: 'POST',
-           cache: false, 
-           data: { message: messageString, cID: cIDString }, 
-           success: function(data){
-           	  console.log(typeof(data));
-           	  markup = data;
-              //alert('Success!');
-              $("section ul").append(data);
-              
-           }
-           , error: function(jqXHR, textStatus, err){
-               alert('text status '+textStatus+', err '+err)
-           }
-        })
+		if(messageString.length > 0) {
+		     $.ajax({ 
+		           url: '/<%= user.username %>/user_message/',
+		           type: 'POST',
+		           cache: false, 
+		           data: { message: messageString, cID: cIDString }, 
+		           success: function(data){
+		           	  console.log(typeof(data));
+		           	  markup = data;
+		              //alert('Success!');
+		              $("section ul").append(data);
+		              
+		           }
+		           , error: function(jqXHR, textStatus, err){
+		               alert('text status '+textStatus+', err '+err)
+		           }
+		        });
+		}
      });            
 
   </script>

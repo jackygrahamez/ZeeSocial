@@ -23,7 +23,7 @@ module.exports = function(mongoose) {
     	  check_in_message: {
         	  message_thread : [{ 
         		  				cID: ObjectId,
-        		  				uid: ObjectId, 
+        		  				oID: ObjectId, 
         		  				message: { type: String},
         		  				time: { type: Date, expires: '24h' }}]
           }
@@ -145,7 +145,7 @@ module.exports = function(mongoose) {
 	  	var d1 = new Date();
 	    userMessage = new Object();
 	    userMessage.cID = cID;
-	    userMessage.uid = accountId;
+	    userMessage.oID = accountId;
 	    userMessage.message = message;
 	    userMessage.time = d1;
 	    
