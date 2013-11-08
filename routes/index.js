@@ -1,6 +1,9 @@
 var mongoose = require('mongoose'),
-    account  = require('../models/account')(mongoose);
+    message  = require('../models/message')(mongoose),
+	account  = require('../models/account')(mongoose);
 
+console.log("message typeof "+typeof(message));
+console.log("message "+JSON.stringify(message));
 mongoose.connect('mongodb://localhost/ZeeSocial');
 
 var db = mongoose.connection;
@@ -277,85 +280,44 @@ exports.user_profile = function(req, res) {
 
 exports.user_message = function(req, res) {
 
-    var message = req.param('message', ''),
-    	cID = req.param('cID', ''),
-    	oID = req.param('oID', '');
-    console.log("message "+message);	
-    console.log("cID "+cID);	
-    console.log("oID "+oID);
+    var user_message = req.param('message', ''),
+    	tID = req.param('tID', ''),
+    	fID = req.param('fID', req.session.accountId);
+	    console.log("message "+message);	
+	    console.log("tID "+tID);	
+	    console.log("fID "+fID);
 	
-	// If the Owner of the message is null then just present the page
-    if ((oID.length < 1) && (null == message || message.length < 1 )) {
-    console.log("oID.length "+oID.length);
-    account.findById(cID, function(messages) {
-    	messageArray = [];
-		for(var i=0; i<messages.check_in.check_in_message.message_thread.length; i++) {
-			if (messages.check_in.check_in_message.message_thread[i].oID == req.session.accountId) {
-				messageArray.push(messages.check_in.check_in_message.message_thread[i]);
-			}
-		}    	
-        account.findById(req.session.accountId, function(doc) {
-        	console.log("find by id");
-            res.render('user_message', {
-              title: 'ZeeSocial',
-              user: doc,
-    		  pagename: 'user_message',
-    		  cID: cID,
-    		  oID: oID, 
-			  messages: messages,
-			  messageArray: messageArray
-            });
+    if ((fID.length > 1) && (tID.length > 1) && user_message.length > 0 ) {
+    	account.findById(req.session.accountId, function(doc) {
+    		res.send("<li>" + doc.name.first + ": " + user_message + "</li>");
+    	});
 
-        });
-      });  
-      return;
-    }
-    // if there is no connector value then we can use accountID owner is the connector
-    else if ((cID.length < 1) && (null == message || message.length < 1 )) {
-        console.log("oID.length "+oID.length);
-        account.findById(req.session.accountId, function(messages) {
-    	messageArray = [];
-    	console.log(messages);
-
-		for(var i=0; i<messages.check_in.check_in_message.message_thread.length; i++) {
-			if ((messages.check_in.check_in_message.message_thread[i].cID == req.session.accountId) ||
-			    (messages.check_in.check_in_message.message_thread[i].oID == oID)) {
-				messageArray.push(messages.check_in.check_in_message.message_thread[i]);
-			}
-		}    	
-        account.findById(req.session.accountId, function(doc) {
-        	console.log("find by id");
-            res.render('user_message', {
-              title: 'ZeeSocial',
-              user: doc,
-    		  pagename: 'user_message',
-    		  cID: cID,
-    		  oID: oID,    		  
-			  messages: messages,
-			  messageArray: messageArray
-            });
-        });
-   
-      });  
-      return;
-    }
-    account.findFirstnameById(req.session.accountId, function(username) {    
-	    account.post_message(cID, req.session.accountId, message, username.name.first, function(err) {
-	
-	        if (err) {
-	          return console.log(err);
-	        }
-	
-	        console.log('Message Submitted');
-	
-	      });    
-	    
-	    account.findById(cID, function(messages) {
-	    	account.findById(req.session.accountId, function(doc) {
-	    		res.send("<li>" + username.name.first + ": " + message + "</li>");
-			});
+        return;
+        
+    } else if ((fID.length > 1) && (tID.length > 1) && user_message.length < 1 ) {
+	    account.findById(req.session.accountId, function(doc) {
+	    	console.log("What is account "+typeof(account));
+	    	console.log("What is message "+typeof(message));
+	    	message.findMessages(tID, fID, function(message_doc) {
+	    		
+			    	res.render('user_message', {
+			          title: 'ZeeSocial',
+			          user: doc,
+			          message_doc: message_doc,
+			          tID: tID,
+			          fID: fID,
+					  pagename: 'user_message'
+			        });
+	    	 });
 	    });
-    });
+    	return;  	
+    }
+    else {
+    	
+        res.send(401);
+    	return;
+    }
+
 }
 
 

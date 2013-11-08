@@ -9,21 +9,18 @@
 		<form method="post" action="/<%= user.username %>/user_message/" class="form-skin">
 			<fieldset>
 			  <label>Post a message:</label>
-			  <input id="cID" type="text" name="cID" value="<%= cID %>" />
-			  <input id="oID" type="text" name="oID" value="<%= oID %>" />
+			  <label>To: </label>
+			  <input id="tID" type="text" name="tID" value="<%= tID %>" />
+			  <label>From: </label>
+			  <input id="fID" type="text" name="fID" value="<%= fID %>" />
 			  <textarea id="message" name="message" rows="4" cols="50"></textarea>
 			</fieldset>						
 			<p>
 			  <input id="post" type="button" value="Post Message" class="btn btn-flat btn-blue no-radius"/>
 			</p>
 		</form>
-		<ul>
-		<% for(var i=0; i<messageArray.length; i++) {%>
-			<li>
-			<%= messageArray[i].username %> <%= messageArray[i].message %>
-			</li>
-		<% } %>
-		</ul>		
+		
+
     </section>
 </section>
 
@@ -34,18 +31,17 @@
       $('#post').click(function(){ 
       	console.log("post clicked"); 
 		var messageString = $("#message").val(),
-			cIDString = $("#cID").val(),
-			oIDString = $("#oID").val();
-			
-		console.log("oIDString "+oIDString);
-		if((messageString.length > 0) && (cIDString.length > 0)) {
+			tIDString = $("#tID").val(),
+			fIDString = $("#fID").val();
+		console.log("tIDString "+tIDString);			
+		console.log("fIDString "+fIDString);
+		if((messageString.length > 0) && (tIDString.length > 0) && (fIDString.length > 0)) {
 		     $.ajax({ 
 		           url: '/<%= user.username %>/user_message/',
 		           type: 'POST',
 		           cache: false, 
-		           data: { message: messageString, cID: cIDString }, 
+		           data: { message: messageString, tID: tIDString, fID: fIDString }, 
 		           success: function(data){
-		           	  console.log(typeof(data));
 		           	  markup = data;
 		              //alert('Success!');
 		              $("section ul").append(data);
@@ -56,24 +52,6 @@
 		           }
 		        });
 		}
-		if((messageString.length > 0) && (oIDString.length > 0)) {
-		     $.ajax({ 
-		           url: '/<%= user.username %>/user_message/',
-		           type: 'POST',
-		           cache: false, 
-		           data: { message: messageString, cID: oIDString }, 
-		           success: function(data){
-		           	  console.log(typeof(data));
-		           	  markup = data;
-		              //alert('Success!');
-		              $("section ul").append(data);
-		              
-		           }
-		           , error: function(jqXHR, textStatus, err){
-		               alert('text status '+textStatus+', err '+err)
-		           }
-		        });
-		}		
      });            
 
   </script>
