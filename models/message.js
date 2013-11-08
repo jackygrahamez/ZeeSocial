@@ -17,7 +17,15 @@ module.exports = function(mongoose) {
   
   var findMessages = function(tID, fID, callback) {
 	  console.log("findMessage "+tID+" "+fID);
-	  	message.find( function(err,doc) {
+	  var query = { "$or" : [
+                      { "fID" : fID,  
+						"tID" : tID} ,
+                      { "tID" : fID,
+					    "fID" : tID}
+                    ]
+             }
+           
+	  	message.find( query, function(err,doc) {
 
 	  	  console.log("findMessages "+doc);	  	
 	      callback(doc);
