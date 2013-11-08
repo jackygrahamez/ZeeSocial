@@ -2,8 +2,6 @@ var mongoose = require('mongoose'),
     message  = require('../models/message')(mongoose),
 	account  = require('../models/account')(mongoose);
 
-console.log("message typeof "+typeof(message));
-console.log("message "+JSON.stringify(message));
 mongoose.connect('mongodb://localhost/ZeeSocial');
 
 var db = mongoose.connection;
@@ -281,22 +279,25 @@ exports.user_profile = function(req, res) {
 exports.user_message = function(req, res) {
 
     var user_message = req.param('message', ''),
+	
     	tID = req.param('tID', ''),
     	fID = req.param('fID', req.session.accountId);
-	    console.log("message "+message);	
+		cID = req.param('cID', tID),    	
+        console.log("message "+message);
+	    console.log("cID "+cID);		    
 	    console.log("tID "+tID);	
 	    console.log("fID "+fID);
 	    var time = new Date();
 	
-    if ((fID.length > 1) && (tID.length > 1) && user_message.length > 0 ) {
+    if ((cID.length > 1) && (fID.length > 1) && (tID.length > 1) && user_message.length > 0 ) {
     	account.findById(req.session.accountId, function(doc) {
-    		message.sendMessages(tID, fID, doc.name.first, user_message, time, function(message_doc) {
+    		message.sendMessages(cID, tID, fID, doc.name.first, user_message, time, function(message_doc) {
     			res.send("<li>" + doc.name.first + ": " + user_message + "</li>");
     		});
     	});
         return;
         
-    } else if ((fID.length > 1) && (tID.length > 1) && user_message.length < 1 ) {
+    } else if ((cID.length > 1) && (fID.length > 1) && (tID.length > 1) && user_message.length < 1 ) {
 	    account.findById(req.session.accountId, function(doc) {
 	    	console.log("What is account "+typeof(account));
 	    	console.log("What is message "+typeof(message));
@@ -306,6 +307,7 @@ exports.user_message = function(req, res) {
 			          title: 'ZeeSocial',
 			          user: doc,
 			          message_doc: message_doc,
+			          cID: cID,
 			          tID: tID,
 			          fID: fID,
 					  pagename: 'user_message'

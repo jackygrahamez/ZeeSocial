@@ -9,6 +9,8 @@
 		<form method="post" action="/<%= user.username %>/user_message/" class="form-skin">
 			<fieldset>
 			  <label>Post a message:</label>
+			  <label>Check-in ID: </label>
+			  <input id="cID" type="text" name="cID" value="<%= tID %>" />
 			  <label>To: </label>
 			  <input id="tID" type="text" name="tID" value="<%= tID %>" />
 			  <label>From: </label>
@@ -37,16 +39,17 @@
       $('#post').click(function(){ 
       	console.log("post clicked"); 
 		var messageString = $("#message").val(),
+			cIDString = $("#cID").val(),
 			tIDString = $("#tID").val(),
 			fIDString = $("#fID").val();
 		console.log("tIDString "+tIDString);			
 		console.log("fIDString "+fIDString);
-		if((messageString.length > 0) && (tIDString.length > 0) && (fIDString.length > 0)) {
+		if((messageString.length > 0) && (cIDString.length > 0) && (tIDString.length > 0) && (fIDString.length > 0)) {
 		     $.ajax({ 
 		           url: '/<%= user.username %>/user_message/',
 		           type: 'POST',
 		           cache: false, 
-		           data: { message: messageString, tID: tIDString, fID: fIDString }, 
+		           data: { message: messageString, cID: cIDString, tID: tIDString, fID: fIDString }, 
 		           success: function(data){
 		           	  markup = data;
 		              //alert('Success!');
