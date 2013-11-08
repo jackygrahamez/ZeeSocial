@@ -278,13 +278,15 @@ exports.user_profile = function(req, res) {
 exports.user_message = function(req, res) {
 
     var message = req.param('message', ''),
-    	cID = req.param('cID', '');
-    //console.log("req.params.id "+req.params.id);
-    if ( null == cID || cID.length < 1 ) {	
-        res.send(400);
-      	return;	
-    } 	
-    else if ( null == message || message.length < 1 ) {
+    	cID = req.param('cID', ''),
+    	oID = req.param('oID', '');
+    console.log("message "+message);	
+    console.log("cID "+cID);	
+    console.log("oID "+oID);
+	
+	// If the Owner of the message is null then just present the page
+    if ((oID.length < 1) && (null == message || message.length < 1 )) {
+    console.log("oID.length "+oID.length);
     account.findById(cID, function(messages) {
     	messageArray = [];
 		for(var i=0; i<messages.check_in.check_in_message.message_thread.length; i++) {
@@ -299,11 +301,41 @@ exports.user_message = function(req, res) {
               user: doc,
     		  pagename: 'user_message',
     		  cID: cID,
+    		  oID: oID, 
 			  messages: messages,
 			  messageArray: messageArray
             });
 
         });
+      });  
+      return;
+    }
+    // if there is no connector value then we can use accountID owner is the connector
+    else if ((cID.length < 1) && (null == message || message.length < 1 )) {
+        console.log("oID.length "+oID.length);
+        account.findById(req.session.accountId, function(messages) {
+    	messageArray = [];
+    	console.log(messages);
+
+		for(var i=0; i<messages.check_in.check_in_message.message_thread.length; i++) {
+			if ((messages.check_in.check_in_message.message_thread[i].cID == req.session.accountId) ||
+			    (messages.check_in.check_in_message.message_thread[i].oID == oID)) {
+				messageArray.push(messages.check_in.check_in_message.message_thread[i]);
+			}
+		}    	
+        account.findById(req.session.accountId, function(doc) {
+        	console.log("find by id");
+            res.render('user_message', {
+              title: 'ZeeSocial',
+              user: doc,
+    		  pagename: 'user_message',
+    		  cID: cID,
+    		  oID: oID,    		  
+			  messages: messages,
+			  messageArray: messageArray
+            });
+        });
+   
       });  
       return;
     }

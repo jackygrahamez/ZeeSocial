@@ -9,7 +9,16 @@
 		<ul>
 		<% for(var i=0; i<user.check_in.check_in_message.message_thread.length; i++) {%>
 			<li>
+			<form id="form<%= i %>" method="post" action="/<%= user.username %>/user_message/" class="form-skin">
+			
 			<%= user.check_in.check_in_message.message_thread[i].username %>: <%= user.check_in.check_in_message.message_thread[i].message %>
+			<fieldset>
+			  <input id="oID" type="text" name="oID" value="<%= user.check_in.check_in_message.message_thread[i].oID %>" />
+			</fieldset>
+			<p>
+			  <input type="submit" value="Message" class="btn btn-flat btn-blue no-radius"/>
+			</p>	
+			</form>
 			</li>
 		<% } %>
 		</ul>

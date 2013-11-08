@@ -10,6 +10,7 @@
 			<fieldset>
 			  <label>Post a message:</label>
 			  <input id="cID" type="text" name="cID" value="<%= cID %>" />
+			  <input id="oID" type="text" name="oID" value="<%= oID %>" />
 			  <textarea id="message" name="message" rows="4" cols="50"></textarea>
 			</fieldset>						
 			<p>
@@ -33,8 +34,10 @@
       $('#post').click(function(){ 
       	console.log("post clicked"); 
 		var messageString = $("#message").val(),
-			cIDString = $("#cID").val();
-		if(messageString.length > 0) {
+			cIDString = $("#cID").val(),
+			oIDString = $("#oID").val();
+			
+		if((messageString.length > 0) && (cIDString.length > 0)) {
 		     $.ajax({ 
 		           url: '/<%= user.username %>/user_message/',
 		           type: 'POST',

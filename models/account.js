@@ -146,7 +146,7 @@ module.exports = function(mongoose) {
       callback(doc);
     });
 
-      };
+  	};
   
   var post_message = function(cID, accountId, message, username, callback) {
 	    console.log("post_message");
