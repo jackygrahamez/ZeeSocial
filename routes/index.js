@@ -286,12 +286,14 @@ exports.user_message = function(req, res) {
 	    console.log("message "+message);	
 	    console.log("tID "+tID);	
 	    console.log("fID "+fID);
+	    var time = new Date();
 	
     if ((fID.length > 1) && (tID.length > 1) && user_message.length > 0 ) {
     	account.findById(req.session.accountId, function(doc) {
-    		res.send("<li>" + doc.name.first + ": " + user_message + "</li>");
+    		message.sendMessages(tID, fID, doc.name.first, user_message, time, function(message_doc) {
+    			res.send("<li>" + doc.name.first + ": " + user_message + "</li>");
+    		});
     	});
-
         return;
         
     } else if ((fID.length > 1) && (tID.length > 1) && user_message.length < 1 ) {

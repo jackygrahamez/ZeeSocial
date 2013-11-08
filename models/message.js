@@ -16,17 +16,39 @@ module.exports = function(mongoose) {
   console.log("message "+message);
   
   var findMessages = function(tID, fID, callback) {
-
+	  console.log("findMessage "+tID+" "+fID);
 	  	message.find( function(err,doc) {
 
 	  	  console.log("findMessages "+doc);	  	
 	      callback(doc);
-	    });	
-
+	    });
   };
-	  
+
+  var sendMessages = function(tID, fID, username, user_message, time, callback) {
+	  console.log("sendMessage method");
+
+	    var userMessage = new message({ 
+			fID: fID,
+			tID: tID,
+			username: username,
+			message: message,
+			time: time
+	  	});
+	    console.log(userMessage);
+	    userMessage.save(callback);
+
+	  console.log("sendMessages "+tID+" "+fID+" "+username+" "+user_message+" "+time);
+	  	message.find( function(err,doc) {
+
+	  	  console.log("sendMessages "+doc);	  	
+	      callback(doc);
+	    });
+  };
+
+  
   return {
 	message: message,
-	findMessages: findMessages
+	findMessages: findMessages,
+	sendMessages: sendMessages
   }
 }
