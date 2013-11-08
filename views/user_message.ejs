@@ -20,7 +20,7 @@
 		<ul>
 		<% for(var i=0; i<messageArray.length; i++) {%>
 			<li>
-			<%= messageArray[i].message %>
+			<%= messageArray[i].username %> <%= messageArray[i].message %>
 			</li>
 		<% } %>
 		</ul>		
@@ -37,6 +37,7 @@
 			cIDString = $("#cID").val(),
 			oIDString = $("#oID").val();
 			
+		console.log("oIDString "+oIDString);
 		if((messageString.length > 0) && (cIDString.length > 0)) {
 		     $.ajax({ 
 		           url: '/<%= user.username %>/user_message/',
@@ -55,6 +56,24 @@
 		           }
 		        });
 		}
+		if((messageString.length > 0) && (oIDString.length > 0)) {
+		     $.ajax({ 
+		           url: '/<%= user.username %>/user_message/',
+		           type: 'POST',
+		           cache: false, 
+		           data: { message: messageString, cID: oIDString }, 
+		           success: function(data){
+		           	  console.log(typeof(data));
+		           	  markup = data;
+		              //alert('Success!');
+		              $("section ul").append(data);
+		              
+		           }
+		           , error: function(jqXHR, textStatus, err){
+		               alert('text status '+textStatus+', err '+err)
+		           }
+		        });
+		}		
      });            
 
   </script>
