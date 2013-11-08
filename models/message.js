@@ -31,7 +31,7 @@ module.exports = function(mongoose) {
 			fID: fID,
 			tID: tID,
 			username: username,
-			message: message,
+			message: user_message,
 			time: time
 	  	});
 	    console.log(userMessage);
