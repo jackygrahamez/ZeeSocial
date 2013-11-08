@@ -51,7 +51,18 @@ module.exports = function(mongoose) {
 	      callback(doc);
 	    });
   };
+  /*
+  var findMessagesFrom = function(cID, tID, fID, callback) {
+	  console.log("findMessage "+tID+" "+fID);
+	  var query = { cID : cID }
+           
+	  	message.find( query, function(err,doc) {
 
+	  	  console.log("findMessages "+doc);	  	
+	      callback(doc);
+	    });
+  };
+*/
   
   return {
 	message: message,
