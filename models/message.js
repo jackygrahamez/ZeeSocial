@@ -4,12 +4,14 @@
 	
   var messageSchema = new mongoose.Schema({ 
 	    cID: ObjectId,
-	    fID: ObjectId,
-		tID: ObjectId,
-		username: { type: String},
-		message: { type: String},
-		time: { type: Date, expires: '24h' },
-		counter: { type: Number }
+	    thread : [{
+		    fID: ObjectId,
+			tID: ObjectId,
+			username: { type: String},
+			message: { type: String},
+			time: { type: Date, expires: '24h' },
+			counter: { type: Number }
+	    }]
   	});
   
   var message = mongoose.model('Message', messageSchema);  
