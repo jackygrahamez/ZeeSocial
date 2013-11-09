@@ -36,6 +36,19 @@
 
   <script type="text/javascript">
 	var markup;
+	  $("body, input, textarea").keypress(function(e){
+	  		console.log("key pressed");
+	        if(e.which==13) {
+			var messageString = $("#message").val(),
+				cIDString = $("#cID").val(),
+				tIDString = $("#tID").val(),
+				fIDString = $("#fID").val();
+			console.log("tIDString "+tIDString);			
+			console.log("fIDString "+fIDString);
+			postMessage(messageString, cIDString, tIDString, fIDString);
+			$("#message").val("");	        
+	        }
+	   });	
       $('#post').click(function(){ 
       	console.log("post clicked"); 
 		var messageString = $("#message").val(),
@@ -44,6 +57,10 @@
 			fIDString = $("#fID").val();
 		console.log("tIDString "+tIDString);			
 		console.log("fIDString "+fIDString);
+		postMessage(messageString, cIDString, tIDString, fIDString);
+     });
+     
+     function postMessage(messageString, cIDString, tIDString, fIDString) {
 		if((messageString.length > 0) && (cIDString.length > 0) && (tIDString.length > 0) && (fIDString.length > 0)) {
 		     $.ajax({ 
 		           url: '/<%= user.username %>/user_message/',
@@ -60,7 +77,7 @@
 		               alert('text status '+textStatus+', err '+err)
 		           }
 		        });
-		}
-     });            
+		}     
+     }            
 
   </script>

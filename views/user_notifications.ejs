@@ -12,8 +12,17 @@
 			<form id="form<%= i %>" method="post" action="/<%= user.username %>/user_message/" class="form-skin">
 			
 			<%= messages_doc[i]._id.username %>
+			<label>cID:</label>
 			<fieldset>
-			  <input id="oID" type="text" name="oID" value="<%= messages_doc[i]._id.fID %>" />
+			  <input id="cID" type="text" name="cID" value="<%= user._id %>" />
+			</fieldset>			
+			<label>fID:</label>
+			<fieldset>
+			  <input id="fID" type="text" name="fID" value="<%= user._id %>" />
+			</fieldset>
+			<label>tID:</label>			
+			<fieldset>
+			  <input id="tID" type="text" name="tID" value="<%= messages_doc[i]._id.fID %>" />
 			</fieldset>
 			<p>
 			  <input type="submit" value="Message" class="btn btn-flat btn-blue no-radius"/>
