@@ -14,8 +14,12 @@
 			   		<form method="post" action="/<%= user.username %>/user_message/" class="form-skin">
 						<fieldset>
 						  <p id="demo">How Long Is The Line:</p>
-						  <label>Check In Properties:</label>
-						  <input id="tID" type="text" name="tID" value="<%= lines[i]._id %>" />
+						  <label>cID:</label>
+						  <input id="cID" type="text" name="cID" value="<%= lines[i].check_in.cID  %>" />
+						  <label>tID:</label>
+						  <input id="tID" type="text" name="tID" value="<%= lines[i].check_in.cID %>" />
+						  <label>fID:</label>
+						  <input id="fID" type="text" name="fID" value="<%= user._id %>" />						  						  
 						</fieldset>
 						<p>
 						  <input type="submit" value="Message" class="btn btn-flat btn-blue no-radius"/>

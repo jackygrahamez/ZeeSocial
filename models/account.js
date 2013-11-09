@@ -98,9 +98,18 @@ module.exports = function(mongoose) {
 	  
   var findCurrent = function(id, callback) {
 	  var now = new Date();
-	    account.find({'check_in.check_in_expire_time': {"$gt": now}, '_id': {'$ne': id}}, function(err,doc) {
-	      callback(doc);
-	    });
+	  	console.log("id length "+id);
+	  	if (id) {
+		    account.find({'check_in.check_in_expire_time': {"$gt": now}, '_id': {'$ne': id}}, function(err,doc) {
+		    		
+			      callback(doc);
+			    });	  		
+	  	} else {
+		    account.find({'check_in.check_in_expire_time': {"$gt": now}}, function(err,doc) {
+			      callback(doc);
+			    });		  		
+	  	}
+
 
 	  };	  
 	  

@@ -123,7 +123,7 @@ exports.user_check_in = function(req, res) {
             if (err) {
               return console.log(err);
             }
-			message.removeCheckinMessages(req.session.accountId, function(remove_messages_doc) {
+			message.removeCheckinMessages(doc.check_in.cID, function(remove_messages_doc) {
 	            res.render('user_check_in', {
 	                title: 'ZeeSocial',
 	                user: doc,
@@ -146,14 +146,17 @@ exports.user_lines = function(req, res) {
 
   if ( req.session.loggedIn ) {
 	
-	account.findCurrent(req.session.accountId, function(doc) {
-		var userLines = doc;
-		console.log("user lines "+userLines.length);
-		for (var i=0;i<userLines.length;i++) {
-			console.log("user lines "+typeof(userLines[i]));
-			console.log("user lines "+userLines[i].check_in);
-		}
+
 	    account.findById(req.session.accountId, function(doc) {
+		console.log("doc "+doc);
+	    if (!doc.check_in) {
+	    	cID = "";
+	    } else {
+	    	cID = doc.check_in.cID;
+	    }	    
+			account.findCurrent(cID, function(userLines) {
+				console.log("user lines "+userLines);
+				
 
 	        res.render('user_lines', {
 	          title: 'ZeeSocial',
