@@ -320,16 +320,27 @@ exports.user_message = function(req, res) {
 	    account.findById(req.session.accountId, function(doc) {
 
 	    	message.findMessages(tID, fID, function(message_doc) {
-	    			console.log("message_doc "+message_doc);
-			    	res.render('user_message', {
-			          title: 'ZeeSocial',
-			          user: doc,
-			          message_doc: message_doc,
-			          cID: cID,
-			          tID: tID,
-			          fID: fID,
-					  pagename: 'user_message'
-			        });
+    			if (message_doc[0] && message_doc[0].thread) {  			
+		    	res.render('user_message', {
+		          title: 'ZeeSocial',
+		          user: doc,
+		          message_doc: message_doc,
+		          cID: cID,
+		          tID: tID,
+		          fID: fID,
+				  pagename: 'user_message'
+		        });
+    			} else {
+		    	  res.render('user_message', {
+		          title: 'ZeeSocial',
+		          user: doc,
+		          message_doc: "",
+		          cID: cID,
+		          tID: tID,
+		          fID: fID,
+				  pagename: 'user_message'
+		        });
+    			}
 	    	 });
 	    });
     	return;  	

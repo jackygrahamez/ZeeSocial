@@ -21,19 +21,19 @@
 			  <input id="post" type="button" value="Post Message" class="btn btn-flat btn-blue no-radius"/>
 			</p>
 		</form>
-	
 		<ul>
+		<% if(message_doc != "") { %>
 		<% for(var i=0; i<message_doc[0].thread.length; i++) {%>
-		<li index="<% message_doc[0].thread[i].counter %>">
-			<%= message_doc[i].username %>: <%= message_doc[0].thread[i].message %> 
-			<label>Time: </label>
-			<input id="time_<%= i %>" type="text" name="time" value="<%= message_doc[0].thread[i].time %>" />
-			<label>counter: </label>
-			<input class="counter" id="counter_<%= i %>" type="text" name="counter" value="<%= message_doc[0].thread[i].counter %>" />			
-		</li>
+			<li index="<% message_doc[0].thread[i].counter %>">
+				<%= message_doc[0].thread[i].username %>: <%= message_doc[0].thread[i].message %> 
+				<label>Time: </label>
+				<input id="time_<%= i %>" type="text" name="time" value="<%= message_doc[0].thread[i].time %>" />
+				<label>counter: </label>
+				<input class="counter" id="counter_<%= i %>" type="text" name="counter" value="<%= i %>" />			
+			</li>
+		<% } %>
 		<% } %>
 		</ul>
-
     </section>
 </section>
 
@@ -65,14 +65,13 @@
 			fIDString = $("#fID").val();
 		console.log("tIDString "+tIDString);			
 		console.log("fIDString "+fIDString);
-		message_counter = $("ul li").last().attr("index");
-		console.log("message_counter "+message_counter);		
 		postMessage(messageString, cIDString, tIDString, fIDString);
      });
      
      function postMessage(messageString, cIDString, tIDString, fIDString) {
 		if((messageString.length > 0) && (cIDString.length > 0) && (tIDString.length > 0) && (fIDString.length > 0)) {
-
+			var message_counter = $("ul li").last().attr("index");
+			console.log("message_counter "+message_counter);		
 			if (!message_counter) {
 				message_counter = 0; 
 			}		
