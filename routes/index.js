@@ -180,13 +180,20 @@ exports.user_notifications = function(req, res) {
   if ( req.session.loggedIn ) {
 
     account.findById(req.session.accountId, function(doc) {
-		message.findMessagesFrom(req.session.accountId, function(messages_doc) {
-
+    	console.log("doc "+doc);
+	    if (!doc.check_in) {
+	    	cID = "";
+	    } else {
+	    	cID = doc.check_in.cID;
+	    }	
+		message.findMessagesFrom(cID, function(messages_doc) {
+			console.log("messages_doc "+messages_doc);
 	        res.render('user_notifications', {
 	          title: 'ZeeSocial',
 	          user: doc,
 			  pagename: 'user_notifications',
-			  messages_doc: messages_doc
+			  messages_doc: messages_doc,
+			  cID: cID
 	        });
     	
     	});
