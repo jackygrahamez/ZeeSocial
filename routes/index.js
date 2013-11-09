@@ -176,13 +176,16 @@ exports.user_notifications = function(req, res) {
   if ( req.session.loggedIn ) {
 
     account.findById(req.session.accountId, function(doc) {
+		message.findMessagesFrom(req.session.accountId, function(messages_doc) {
 
-        res.render('user_notifications', {
-          title: 'ZeeSocial',
-          user: doc,
-		  pagename: 'user_notifications'
-        });
-
+	        res.render('user_notifications', {
+	          title: 'ZeeSocial',
+	          user: doc,
+			  pagename: 'user_notifications',
+			  messages_doc: messages_doc
+	        });
+    	
+    	});
     });
 
   } else {

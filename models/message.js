@@ -1,4 +1,4 @@
-module.exports = function(mongoose) {
+		module.exports = function(mongoose) {
   var Schema = mongoose.Schema,
   ObjectId = Schema.ObjectId;
 	
@@ -51,22 +51,31 @@ module.exports = function(mongoose) {
 	      callback(doc);
 	    });
   };
-  /*
-  var findMessagesFrom = function(cID, tID, fID, callback) {
-	  console.log("findMessage "+tID+" "+fID);
-	  var query = { cID : cID }
-           
-	  	message.find( query, function(err,doc) {
-
-	  	  console.log("findMessages "+doc);	  	
+  
+  var findMessagesFrom = function(cID, callback) {
+	  console.log("findMessage "+cID);
+	  /*
+	    message.distinct('fID', {cID: cID}, function(err,doc) {
 	      callback(doc);
 	    });
+	  db.test.aggregate( { $group: { _id: { group: "$group", cat: "$cat" } } } );
+	    
+	  */
+	  
+	  message.aggregate(
+			    { $group: { _id: { fID: "$fID", username: "$username" } } },
+			    function(err, doc) {
+			        console.log(doc);
+			        callback(doc);
+			    }
+			); 
   };
-*/
+
   
   return {
 	message: message,
 	findMessages: findMessages,
-	sendMessages: sendMessages
+	sendMessages: sendMessages,
+	findMessagesFrom: findMessagesFrom
   }
 }

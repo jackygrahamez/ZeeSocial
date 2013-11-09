@@ -7,13 +7,13 @@
     </header>
     <section class="bordered">
 		<ul>
-		<% for(var i=0; i<user.check_in.check_in_message.message_thread.length; i++) {%>
+		<% for(var i=0; i<messages_doc.length; i++) {%>
 			<li>
 			<form id="form<%= i %>" method="post" action="/<%= user.username %>/user_message/" class="form-skin">
 			
-			<%= user.check_in.check_in_message.message_thread[i].username %>: <%= user.check_in.check_in_message.message_thread[i].message %>
+			<%= messages_doc[i]._id.username %>
 			<fieldset>
-			  <input id="oID" type="text" name="oID" value="<%= user.check_in.check_in_message.message_thread[i].oID %>" />
+			  <input id="oID" type="text" name="oID" value="<%= messages_doc[i]._id.fID %>" />
 			</fieldset>
 			<p>
 			  <input type="submit" value="Message" class="btn btn-flat btn-blue no-radius"/>
