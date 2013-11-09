@@ -15,24 +15,13 @@ module.exports = function(mongoose) {
       },
       photoUrl:  { type: String },
       check_in: {
+    	  cID: ObjectId,
     	  location: { type: String },
     	  geolocation: { type: String },
     	  line_length: { type: Number },
     	  check_in_time: { type: Date, expires: '24h' },
-    	  check_in_expire_time: { type: Date, expires: '24h' },
-    	  check_in_message: {
-        	  message_thread : [{ 
-        		  				cID: ObjectId,
-        		  				oID: ObjectId,
-        		  				fID: ObjectId,
-        		  				tID: ObjectId,
-        		  				username: { type: String},
-        		  				message: { type: String},
-        		  				time: { type: Date, expires: '24h' }}]
-          }
-      },
-      field1: { type: Number },
-      field2: { type: Number }
+    	  check_in_expire_time: { type: Date, expires: '24h' }
+      }
       
   });
 
@@ -79,6 +68,7 @@ module.exports = function(mongoose) {
 
 	  	console.log('model checkInMethod ' + d1 + ' ' + location + ", " + geolocation + ", " + line_length);
 	    var checkIn = new Object();
+	    checkIn.cID = crypto.createHash('md5').update(Math.random().toString()).digest('hex').substring(0, 24);
 	    checkIn.location = location;
 	    checkIn.geolocation = geolocation;
 	    checkIn.line_length = line_length;

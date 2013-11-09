@@ -123,13 +123,14 @@ exports.user_check_in = function(req, res) {
             if (err) {
               return console.log(err);
             }
-
-            res.render('user_check_in', {
-                title: 'ZeeSocial',
-                user: doc,
-      		  	pagename: 'user_check_in',
-      		  	checkin_status: 'checked in'
-              });               
+			message.removeCheckinMessages(req.session.accountId, function(remove_messages_doc) {
+	            res.render('user_check_in', {
+	                title: 'ZeeSocial',
+	                user: doc,
+	      		  	pagename: 'user_check_in',
+	      		  	checkin_status: 'checked in'
+	              });
+          	});      		                             
           });      		
     	}
     });

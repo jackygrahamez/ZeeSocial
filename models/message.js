@@ -52,16 +52,16 @@
 	    });
   };
   
+  var removeCheckinMessages = function(cID, callback) {
+	  console.log("removing checkin messages "+cID);
+	  	message.remove( {cID: cID}, function(err,doc) {
+		  	  console.log("remove "+doc);	  	
+		      callback(doc);
+		    });
+  };
+
   var findMessagesFrom = function(cID, callback) {
 	  console.log("findMessage "+cID);
-	  /*
-	    message.distinct('fID', {cID: cID}, function(err,doc) {
-	      callback(doc);
-	    });
-	  db.test.aggregate( { $group: { _id: { group: "$group", cat: "$cat" } } } );
-	    
-	  */
-	  
 	  message.aggregate(
 			    { $group: { _id: { fID: "$fID", username: "$username" } } },
 			    function(err, doc) {
@@ -69,13 +69,13 @@
 			        callback(doc);
 			    }
 			); 
-  };
-
+  };  
   
   return {
 	message: message,
 	findMessages: findMessages,
 	sendMessages: sendMessages,
-	findMessagesFrom: findMessagesFrom
+	findMessagesFrom: findMessagesFrom,
+	removeCheckinMessages: removeCheckinMessages
   }
 }
