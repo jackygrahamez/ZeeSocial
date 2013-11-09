@@ -318,10 +318,9 @@ exports.user_message = function(req, res) {
         
     } else if ((cID.length > 1) && (fID.length > 1) && (tID.length > 1) && user_message.length < 1 ) {
 	    account.findById(req.session.accountId, function(doc) {
-	    	console.log("What is account "+typeof(account));
-	    	console.log("What is message "+typeof(message));
+
 	    	message.findMessages(tID, fID, function(message_doc) {
-	    		
+	    			console.log("message_doc "+message_doc);
 			    	res.render('user_message', {
 			          title: 'ZeeSocial',
 			          user: doc,

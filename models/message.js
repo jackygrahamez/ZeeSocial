@@ -19,10 +19,10 @@
   var findMessages = function(tID, fID, callback) {
 	  console.log("findMessage "+tID+" "+fID);
 	  var query = { "$or" : [
-                      { "fID" : fID,  
-						"tID" : tID} ,
-                      { "tID" : fID,
-					    "fID" : tID}
+                      { "thread.fID" : fID,  
+						"thread.tID" : tID} ,
+                      { "thread.tID" : fID,
+					    "thread.fID" : tID}
                     ]
              }
            
@@ -34,22 +34,46 @@
   };
 
   var sendMessages = function(cID, tID, fID, username, user_message, time, counter, callback) {
-	  console.log("sendMessage method");
-	    var userMessage = new message({ 
-	    	cID: cID,
+	  console.log("user_message "+user_message);
+
+	  	userMessage = new Object();
+	  	userMessage.fID = fID;
+	  	userMessage.tID = tID;
+	  	userMessage.username = username;	  	
+	  	userMessage.message = user_message;	  	
+	  	userMessage.time = time;	  	
+	  	userMessage.counter = counter;
+	  	
+		  /*	  	
+	    var userMessage = new message({
 			fID: fID,
 			tID: tID,
 			username: username,
 			message: user_message,
 			time: time,
-			counter: counter
+			counter: counter 
 	  	});
-	    console.log(userMessage);
-	    userMessage.save(callback);
 
+	    message.update(
+	    		{"_id" : cID},
+	    		{"$push" : {thread : userMessage }},
+	    		{upsert: true},
+	    		function(err,update_message_thread) {  	
+		        callback(update_message_thread);
+		});
+	   */
+	    message.update(
+	    		{"_id" : cID},
+	    		{"$push" : { 'thread' : userMessage }},
+	    		{upsert: true},
+	    		function(err,update_message_thread) {  	
+		        callback(update_message_thread);
+		});
+	    
+  	    
+	    
 	  console.log("sendMessages "+tID+" "+fID+" "+username+" "+user_message+" "+time);
-	  	message.find( function(err,doc) {
-
+	  	message.find( {"_id" : cID}, function(err,doc) {
 	  	  console.log("sendMessages "+doc);	  	
 	      callback(doc);
 	    });

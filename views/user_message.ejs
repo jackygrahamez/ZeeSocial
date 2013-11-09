@@ -21,14 +21,15 @@
 			  <input id="post" type="button" value="Post Message" class="btn btn-flat btn-blue no-radius"/>
 			</p>
 		</form>
+	
 		<ul>
-		<% for(var i=0; i<message_doc.length; i++) {%>
-		<li index="<% message_doc[i].counter %>">
-			<%= message_doc[i].username %>: <%= message_doc[i].message %> 
+		<% for(var i=0; i<message_doc[0].thread.length; i++) {%>
+		<li index="<% message_doc[0].thread[i].counter %>">
+			<%= message_doc[i].username %>: <%= message_doc[0].thread[i].message %> 
 			<label>Time: </label>
-			<input id="time_<%= i %>" type="text" name="time" value="<%= message_doc[i].time %>" />
+			<input id="time_<%= i %>" type="text" name="time" value="<%= message_doc[0].thread[i].time %>" />
 			<label>counter: </label>
-			<input class="counter" id="counter_<%= i %>" type="text" name="counter" value="<%= message_doc[i].counter %>" />			
+			<input class="counter" id="counter_<%= i %>" type="text" name="counter" value="<%= message_doc[0].thread[i].counter %>" />			
 		</li>
 		<% } %>
 		</ul>
