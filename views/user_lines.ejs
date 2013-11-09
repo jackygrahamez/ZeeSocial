@@ -10,7 +10,7 @@
 			<% for(var i=0; i<lines.length; i++) {%>
 				   <%if (lines[i].check_in.line_length) { %>
 			   		<li> 
-			   		<%= lines[i].check_in.location %>
+			   		<%= lines[i].check_in.location %> <%= lines[i].name.first %>
 			   		<form method="post" action="/<%= user.username %>/user_message/" class="form-skin">
 						<fieldset>
 						  <p id="demo">How Long Is The Line:</p>

@@ -296,17 +296,22 @@ exports.user_message = function(req, res) {
 	
     	tID = req.param('tID', ''),
     	fID = req.param('fID', req.session.accountId);
-		cID = req.param('cID', tID),    	
-        console.log("message "+message);
-	    console.log("cID "+cID);		    
-	    console.log("tID "+tID);	
-	    console.log("fID "+fID);
+		cID = req.param('cID', tID),   
+		counter = req.param('counter', 0); 
+		console.log("counter " + counter); 	
 	    var time = new Date();
 	
     if ((cID.length > 1) && (fID.length > 1) && (tID.length > 1) && user_message.length > 0 ) {
     	account.findById(req.session.accountId, function(doc) {
-    		message.sendMessages(cID, tID, fID, doc.name.first, user_message, time, function(message_doc) {
-    			res.send("<li>" + doc.name.first + ": " + user_message + "</li>");
+    		counter = parseInt(counter) + 1;
+    		message.sendMessages(cID, tID, fID, doc.name.first, user_message, time, counter, function(message_doc) {
+				var ajaxMessage ="<li index='"+counter+"'>" + doc.name.first + ": " + user_message + 
+				"<label>Time: </label>" +
+				"<input id='time_'"+counter+" type='text' name='time' value='"+time+"' />" +
+				"<label>counter: </label>" +
+				"<input id='counter_'"+counter+" type='text' name='counter' value='"+counter+"' />" +
+				"</li>";
+    			res.send(ajaxMessage);
     		});
     	});
         return;

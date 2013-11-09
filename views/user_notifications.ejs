@@ -8,9 +8,9 @@
     <section class="bordered">
 		<ul>
 		<% for(var i=0; i<messages_doc.length; i++) {%>
+			<% if (cID) {%> 
 			<li>
 			<form id="form<%= i %>" method="post" action="/<%= user.username %>/user_message/" class="form-skin">
-			
 			<%= messages_doc[i]._id.username %>
 			<label>cID:</label>
 			<fieldset>
@@ -29,6 +29,7 @@
 			</p>	
 			</form>
 			</li>
+		<% } %>			
 		<% } %>
 		</ul>
     </section>

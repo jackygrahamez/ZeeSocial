@@ -8,7 +8,8 @@
 		tID: ObjectId,
 		username: { type: String},
 		message: { type: String},
-		time: { type: Date, expires: '24h' }
+		time: { type: Date, expires: '24h' },
+		counter: { type: Number }
   	});
   
   var message = mongoose.model('Message', messageSchema);  
@@ -30,16 +31,16 @@
 	    });
   };
 
-  var sendMessages = function(cID, tID, fID, username, user_message, time, callback) {
+  var sendMessages = function(cID, tID, fID, username, user_message, time, counter, callback) {
 	  console.log("sendMessage method");
-
 	    var userMessage = new message({ 
 	    	cID: cID,
 			fID: fID,
 			tID: tID,
 			username: username,
 			message: user_message,
-			time: time
+			time: time,
+			counter: counter
 	  	});
 	    console.log(userMessage);
 	    userMessage.save(callback);
@@ -69,6 +70,16 @@
 			        callback(doc);
 			    }
 			); 
+  }; 
+  
+  var findNextMessage = function(cID, counter, callback) {
+	  var nextCount = counter + 1;
+	  message.findOne( { cID: cID, counter: nextCount },
+			    function(err, doc) {
+			        console.log(doc);
+			        callback(doc);
+			    }
+			); 
   };  
   
   return {
@@ -76,6 +87,7 @@
 	findMessages: findMessages,
 	sendMessages: sendMessages,
 	findMessagesFrom: findMessagesFrom,
-	removeCheckinMessages: removeCheckinMessages
+	removeCheckinMessages: removeCheckinMessages,
+	findNextMessage: findNextMessage
   }
 }

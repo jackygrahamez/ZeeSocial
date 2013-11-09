@@ -23,8 +23,12 @@
 		</form>
 		<ul>
 		<% for(var i=0; i<message_doc.length; i++) {%>
-		<li>
+		<li index="<% message_doc[i].counter %>">
 			<%= message_doc[i].username %>: <%= message_doc[i].message %> 
+			<label>Time: </label>
+			<input id="time_<%= i %>" type="text" name="time" value="<%= message_doc[i].time %>" />
+			<label>counter: </label>
+			<input class="counter" id="counter_<%= i %>" type="text" name="counter" value="<%= message_doc[i].counter %>" />			
 		</li>
 		<% } %>
 		</ul>
@@ -35,7 +39,10 @@
 <% include footer %>
 
   <script type="text/javascript">
+	var message_counter;
+
 	var markup;
+	counter = $(".counter").last().val
 	  $("body, input, textarea").keypress(function(e){
 	  		console.log("key pressed");
 	        if(e.which==13) {
@@ -57,16 +64,22 @@
 			fIDString = $("#fID").val();
 		console.log("tIDString "+tIDString);			
 		console.log("fIDString "+fIDString);
+		message_counter = $("ul li").last().attr("index");
+		console.log("message_counter "+message_counter);		
 		postMessage(messageString, cIDString, tIDString, fIDString);
      });
      
      function postMessage(messageString, cIDString, tIDString, fIDString) {
 		if((messageString.length > 0) && (cIDString.length > 0) && (tIDString.length > 0) && (fIDString.length > 0)) {
+
+			if (!message_counter) {
+				message_counter = 0; 
+			}		
 		     $.ajax({ 
 		           url: '/<%= user.username %>/user_message/',
 		           type: 'POST',
 		           cache: false, 
-		           data: { message: messageString, cID: cIDString, tID: tIDString, fID: fIDString }, 
+		           data: { message: messageString, cID: cIDString, tID: tIDString, fID: fIDString, counter: message_counter }, 
 		           success: function(data){
 		           	  markup = data;
 		              //alert('Success!');
