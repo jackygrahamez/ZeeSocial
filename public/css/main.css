@@ -228,6 +228,9 @@
   padding: 5px 15px;
   letter-spacing: 1px;
 }
+.hide {
+  display: none !important;
+}
 a {
   color: #0072c6;
 }

@@ -8,13 +8,13 @@
     <section class="bordered">
 		<form method="post" action="/<%= user.username %>/user_message/" class="form-skin">
 			<fieldset>
-			  <label>Post a message:</label>
-			  <label>Check-in ID: </label>
-			  <input id="cID" type="text" name="cID" value="<%= cID %>" />
-			  <label>To: </label>
-			  <input id="tID" type="text" name="tID" value="<%= tID %>" />
-			  <label>From: </label>
-			  <input id="fID" type="text" name="fID" value="<%= fID %>" />
+			  <label class="hide" >Post a message:</label>
+			  <label class="hide" >Check-in ID: </label>
+			  <input class="hide" id="cID" type="text" name="cID" value="<%= cID %>" />
+			  <label class="hide" >To: </label>
+			  <input class="hide" id="tID" type="text" name="tID" value="<%= tID %>" />
+			  <label class="hide" >From: </label>
+			  <input class="hide" id="fID" type="text" name="fID" value="<%= fID %>" />
 			  <textarea id="message" name="message" rows="4" cols="50"></textarea>
 			</fieldset>						
 			<p>
@@ -40,7 +40,7 @@
   	var markup;
 	$(document).ready(function() {
 	  $("body, input, textarea").keypress(function(e){
-	  		console.log("key pressed");
+	  		//console.log("key pressed");
 	        if(e.which==13) {
 			var messageString = $("#message").val(),
 				cIDString = $("#cID").val(),
@@ -74,7 +74,7 @@
 		           success: function(data){
 		           	  markup = data;
 		              //alert('Success!');
-		              console.log("data "+data);
+		              //console.log("data "+data);
 		              $("section ul").append(data);
 		           }
 		           , error: function(jqXHR, textStatus, err){
@@ -87,7 +87,7 @@
      function getNextMessage() {
      	var current_thread_length = $("ul li").length,
      		cID = $("#cID").val();
-		console.log(current_thread_length);
+		 	//console.log(current_thread_length);
 		     $.ajax({ 
 		           url: '/<%= user.username %>/user_next_message/',
 		           type: 'POST',
@@ -96,7 +96,7 @@
 		           success: function(data){
 		           	  markup = data;
 		              //alert('Success!');
-		              console.log("data "+data);
+		              //console.log("data "+data);
 		              $("section ul").append(data);
 		           }
 		           , error: function(jqXHR, textStatus, err){
