@@ -8,8 +8,10 @@
     <section class="bordered">
 		<ul>
 			<% for(var i=0; i<lines.length; i++) {%>
+			IDs: <%= lines[i]._id %> <%= user._id %>
 				   <%if (lines[i].check_in.line_length) { %>
 			   		<li> 
+			   		
 			   		<%= lines[i].check_in.location %> <%= lines[i].name.first %>
 			   		<form method="post" action="/<%= user.username %>/user_message/" class="form-skin">
 						<fieldset>
@@ -17,7 +19,7 @@
 						  <label>cID:</label>
 						  <input id="cID" type="text" name="cID" value="<%= lines[i].check_in.cID  %>" />
 						  <label>tID:</label>
-						  <input id="tID" type="text" name="tID" value="<%= lines[i].check_in.cID %>" />
+						  <input id="tID" type="text" name="tID" value="<%= lines[i]._id %>" />
 						  <label>fID:</label>
 						  <input id="fID" type="text" name="fID" value="<%= user._id %>" />						  						  
 						</fieldset>

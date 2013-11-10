@@ -154,6 +154,7 @@ exports.user_lines = function(req, res) {
 	    } else {
 	    	cID = doc.check_in.cID;
 	    }	    
+	    console.log("user_lines cID "+cID);
 			account.findCurrent(cID, function(userLines) {
 				console.log("user lines "+userLines);
 				
@@ -295,23 +296,31 @@ exports.user_message = function(req, res) {
     var user_message = req.param('message', ''),
 	
     	tID = req.param('tID', ''),
-    	fID = req.param('fID', req.session.accountId);
-		cID = req.param('cID', tID),   
-		counter = req.param('counter', 0); 
-		console.log("counter " + counter); 	
-	    var time = new Date();
-	
+    	fID = req.param('fID', req.session.accountId),
+		cID = req.param('cID', ''),
+	    time = new Date(),
+	    counter = 0;
+	        
+		
     if ((cID.length > 1) && (fID.length > 1) && (tID.length > 1) && user_message.length > 0 ) {
     	account.findById(req.session.accountId, function(doc) {
-    		counter = parseInt(counter) + 1;
-    		message.sendMessages(cID, tID, fID, doc.name.first, user_message, time, counter, function(message_doc) {
-				var ajaxMessage ="<li index='"+counter+"'>" + doc.name.first + ": " + user_message + 
-				"<label>Time: </label>" +
-				"<input id='time_'"+counter+" type='text' name='time' value='"+time+"' />" +
-				"<label>counter: </label>" +
-				"<input id='counter_'"+counter+" type='text' name='counter' value='"+counter+"' />" +
-				"</li>";
-    			res.send(ajaxMessage);
+
+    		message.sendMessages(cID, tID, fID, doc.name.first, user_message, time, function(message_doc) {
+    			if (message_doc[0] && message_doc[0].thread) {
+    			counter = message_doc[0].thread.length;
+    			console.log("message_doc thread length "+counter);
+    			} else {
+    			console.log("setting counter to zero");
+    			counter = 0;
+    			}
+    			console.log("message length "+  counter);
+    			var ticker = counter.toString();
+    			console.log("ticker "+ ticker);
+
+				var ajaxMessage ="<li>" + doc.name.first + ": " + user_message + "<br /> "+time+"</li>"; 
+
+				res.send(ajaxMessage);
+
     		});
     	});
         return;
@@ -320,6 +329,7 @@ exports.user_message = function(req, res) {
 	    account.findById(req.session.accountId, function(doc) {
 
 	    	message.findMessages(tID, fID, function(message_doc) {
+	    		console.log("message_doc "+message_doc);
     			if (message_doc[0] && message_doc[0].thread) {  			
 		    	res.render('user_message', {
 		          title: 'ZeeSocial',
@@ -350,9 +360,44 @@ exports.user_message = function(req, res) {
         res.send(401);
     	return;
     }
-
 }
 
+exports.user_next_message = function(req, res) {
+var cID = req.param('cID', ''),
+	current_thread_length = req.param('current_thread_length', '');
+
+  if ( req.session.loggedIn ) {
+
+	account.findById(req.session.accountId, function(doc) {
+		message.findNextMessage(cID, function(message_doc) {
+			console.log("user_next_message doc"+message_doc);
+			if (current_thread_length < message_doc[0].thread.length) {
+				i = parseInt(current_thread_length) + 1;			
+				if (message_doc[0].thread[i] && message_doc[0].thread[i]) {
+					console.log("current_thread_length is less than message_doc[0].thread.length");
+					console.log("message_doc[0].thread[i] "+message_doc[0].thread[i]);
+					var ajaxMessage ="<li>" + message_doc[0].thread[i].username + ": " + message_doc[0].thread[i].message + "<br /> "+message_doc[0].thread[i].time+"</li>"; 
+					console.log(ajaxMessage);
+				}
+				else {
+					ajaxMessage = "";
+					console.log("ajaxMessage is blank");				
+				}
+			}
+			else {
+			ajaxMessage = "";
+			console.log("ajaxMessage is blank");
+			}
+			res.send(ajaxMessage);			
+	    });
+    });
+
+  } else {
+
+    res.send(401);
+
+  }
+}
 
 exports.inbox = function(req, res) {
 

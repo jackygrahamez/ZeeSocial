@@ -33,7 +33,7 @@
 	    });
   };
 
-  var sendMessages = function(cID, tID, fID, username, user_message, time, counter, callback) {
+  var sendMessages = function(cID, tID, fID, username, user_message, time, callback) {
 	  console.log("user_message "+user_message);
 
 	  	userMessage = new Object();
@@ -41,8 +41,7 @@
 	  	userMessage.tID = tID;
 	  	userMessage.username = username;	  	
 	  	userMessage.message = user_message;	  	
-	  	userMessage.time = time;	  	
-	  	userMessage.counter = counter;
+	  	userMessage.time = time;
 	  	
 		  /*	  	
 	    var userMessage = new message({
@@ -98,14 +97,12 @@
 			); 
   }; 
   
-  var findNextMessage = function(cID, counter, callback) {
-	  var nextCount = counter + 1;
-	  message.findOne( { cID: cID, counter: nextCount },
-			    function(err, doc) {
-			        console.log(doc);
-			        callback(doc);
-			    }
-			); 
+  var findNextMessage = function(cID, callback) {
+	    var i;
+	  	var query = { "_id" : cID }
+	  	message.find(query, function(err,doc) {
+	      callback(doc);
+	    });
   };  
   
   return {

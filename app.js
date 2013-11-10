@@ -45,6 +45,9 @@ app.get('/:username/user_profile/', routes.user_profile);
 app.get('/:username/user_message/', routes.user_message);
 app.post('/:username/user_message/', routes.user_message);
 
+app.get('/:username/user_next_message/', routes.user_next_message);
+app.post('/:username/user_next_message/', routes.user_next_message);
+
 app.get('/:username/user_notifications/', routes.user_notifications);
 app.post('/:username/user_notifications/', routes.user_notifications);
 

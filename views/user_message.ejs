@@ -10,7 +10,7 @@
 			<fieldset>
 			  <label>Post a message:</label>
 			  <label>Check-in ID: </label>
-			  <input id="cID" type="text" name="cID" value="<%= tID %>" />
+			  <input id="cID" type="text" name="cID" value="<%= cID %>" />
 			  <label>To: </label>
 			  <input id="tID" type="text" name="tID" value="<%= tID %>" />
 			  <label>From: </label>
@@ -23,15 +23,12 @@
 		</form>
 		<ul>
 		<% if(message_doc != "") { %>
-		<% for(var i=0; i<message_doc[0].thread.length; i++) {%>
-			<li index="<% message_doc[0].thread[i].counter %>">
-				<%= message_doc[0].thread[i].username %>: <%= message_doc[0].thread[i].message %> 
-				<label>Time: </label>
-				<input id="time_<%= i %>" type="text" name="time" value="<%= message_doc[0].thread[i].time %>" />
-				<label>counter: </label>
-				<input class="counter" id="counter_<%= i %>" type="text" name="counter" value="<%= i %>" />			
-			</li>
-		<% } %>
+			<% for(var i=0; i<message_doc[0].thread.length; i++) {%>
+				<li index="<%= i %>"> 
+					<%= message_doc[0].thread[i].username %>: <%= message_doc[0].thread[i].message %> <br />
+					<%= message_doc[0].thread[i].time %>			
+				</li>
+			<% } %>
 		<% } %>
 		</ul>
     </section>
@@ -40,10 +37,8 @@
 <% include footer %>
 
   <script type="text/javascript">
-	var message_counter;
-
-	var markup;
-	counter = $(".counter").last().val
+  	var markup;
+	$(document).ready(function() {
 	  $("body, input, textarea").keypress(function(e){
 	  		console.log("key pressed");
 	        if(e.which==13) {
@@ -51,8 +46,6 @@
 				cIDString = $("#cID").val(),
 				tIDString = $("#tID").val(),
 				fIDString = $("#fID").val();
-			console.log("tIDString "+tIDString);			
-			console.log("fIDString "+fIDString);
 			postMessage(messageString, cIDString, tIDString, fIDString);
 			$("#message").val("");	        
 	        }
@@ -63,28 +56,26 @@
 			cIDString = $("#cID").val(),
 			tIDString = $("#tID").val(),
 			fIDString = $("#fID").val();
-		console.log("tIDString "+tIDString);			
-		console.log("fIDString "+fIDString);
 		postMessage(messageString, cIDString, tIDString, fIDString);
-     });
-     
+      });
+      
+      setInterval(function(){
+      	getNextMessage();
+      },3000);
+      
+	});     
      function postMessage(messageString, cIDString, tIDString, fIDString) {
 		if((messageString.length > 0) && (cIDString.length > 0) && (tIDString.length > 0) && (fIDString.length > 0)) {
-			var message_counter = $("ul li").last().attr("index");
-			console.log("message_counter "+message_counter);		
-			if (!message_counter) {
-				message_counter = 0; 
-			}		
 		     $.ajax({ 
 		           url: '/<%= user.username %>/user_message/',
 		           type: 'POST',
 		           cache: false, 
-		           data: { message: messageString, cID: cIDString, tID: tIDString, fID: fIDString, counter: message_counter }, 
+		           data: { message: messageString, cID: cIDString, tID: tIDString, fID: fIDString }, 
 		           success: function(data){
 		           	  markup = data;
 		              //alert('Success!');
+		              console.log("data "+data);
 		              $("section ul").append(data);
-		              
 		           }
 		           , error: function(jqXHR, textStatus, err){
 		               alert('text status '+textStatus+', err '+err)
@@ -93,4 +84,25 @@
 		}     
      }            
 
+     function getNextMessage() {
+     	var current_thread_length = $("ul li").length,
+     		cID = $("#cID").val();
+		console.log(current_thread_length);
+		     $.ajax({ 
+		           url: '/<%= user.username %>/user_next_message/',
+		           type: 'POST',
+		           cache: false, 
+		           data: { cID: cID, current_thread_length: current_thread_length }, 
+		           success: function(data){
+		           	  markup = data;
+		              //alert('Success!');
+		              console.log("data "+data);
+		              $("section ul").append(data);
+		           }
+		           , error: function(jqXHR, textStatus, err){
+		               alert('text status '+textStatus+', err '+err)
+		           }
+		        });
+   
+     }
   </script>
