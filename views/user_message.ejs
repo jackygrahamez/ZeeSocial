@@ -84,6 +84,7 @@
      }            
 
      function getNextMessage() {
+     console.log("get Next message");
      	var current_thread_length = $("ul li").length,
      		cID = $("#cID").val();
 		 	//console.log(current_thread_length);
@@ -95,7 +96,7 @@
 		           success: function(data){
 		           	  markup = data;
 		              //alert('Success!');
-		              //console.log("data "+data);
+		              console.log("data "+data);
 		              $("section ul").append(data);
 		           }
 		           , error: function(jqXHR, textStatus, err){

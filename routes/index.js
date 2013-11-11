@@ -359,6 +359,7 @@ exports.user_message = function(req, res) {
     	account.findUsernameById(req.session.accountId, function(username) {
 		if (req.params.username == username.username) {      	
 	    account.findById(req.session.accountId, function(doc) {
+	    account.findBycId(cID, function(cID_doc) {
 	    	message.findMessages(tID, fID, function(message_doc) {
 	    		if (message_doc) {
 		    		console.log("message_doc "+message_doc);
@@ -370,6 +371,7 @@ exports.user_message = function(req, res) {
 			          cID: cID,
 			          tID: tID,
 			          fID: fID,
+			          cID_doc: cID_doc,
 					  pagename: 'user_message'
 			        });
 	    			} else {
@@ -380,12 +382,14 @@ exports.user_message = function(req, res) {
 			          cID: cID,
 			          tID: tID,
 			          fID: fID,
+			          cID_doc: cID_doc,
 					  pagename: 'user_message'
 			        });
 	    			}
 	    		}
 	    	 });
 	    });
+	    });	    
 	    } else {
 	    	res.redirect('/' +username.username);
 	    }	 

@@ -122,6 +122,14 @@ module.exports = function(mongoose) {
   });
 
   };
+
+  var findBycId = function(cID, callback) {
+
+	  account.findOne({_id:cID}, function(err,doc) {
+	      callback(doc);
+	  });
+
+	  };  
   
   var findUsernameById = function(id, callback) {
 
@@ -192,6 +200,7 @@ module.exports = function(mongoose) {
     login: login,
     register: register,
     findById: findById,
+    findBycId: findBycId,
     findByUsername: findByUsername,
     account: account,
     checkInMethod: checkInMethod,

@@ -8,10 +8,10 @@
     <section class="bordered">
 		<ul>
 			<% for(var i=0; i<lines.length; i++) {%>
-			IDs: <%= lines[i]._id %> <%= user._id %>
+			
 				   <%if (lines[i].check_in.line_length) { %>
+				   <%if (JSON.stringify(lines[i]._id) != JSON.stringify(user._id)) { %>				   
 			   		<li> 
-			   		
 			   		<%= lines[i].check_in.location %> <%= lines[i].name.first %>
 			   		<form method="post" action="/<%= user.username %>/user_message/" class="form-skin">
 						<fieldset>
@@ -30,6 +30,7 @@
 				   		<!--<%= lines[i]._id %> <%= lines[i].check_in.location %> <%= lines[i].check_in.check_in_expire_time %>--> 
 				   <% } %>
 				   </li>
+			<% } %>				   
 			<% } %>
 		</ul>
     </section>
