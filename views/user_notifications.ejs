@@ -1,5 +1,6 @@
 <% include header %>
 
+
 <section class="content">
     <header class="content-header">
         <h1 class="light no-margin"><%= user.name.first %> <%= user.name.last %></h1>
@@ -7,30 +8,37 @@
     </header>
     <section class="bordered">
 		<ul>
-		<% for(var i=0; i<messages_doc[0].thread.length; i++) {%>
-			<% if (cID) {%> 
-			<li>
-			<form id="form<%= i %>" method="post" action="/<%= user.username %>/user_message/" class="form-skin">
-			<%= messages_doc[i]._id.username %>
-			<label>cID:</label>
-			<fieldset>
-			  <input id="cID" type="text" name="cID" value="<%= cID %>" />
-			</fieldset>			
-			<label>fID:</label>
-			<fieldset>
-			  <input id="fID" type="text" name="fID" value="<%= cID %>" />
-			</fieldset>
-			<label>tID:</label>			
-			<fieldset>
-			  <input id="tID" type="text" name="tID" value="<%= messages_doc[0].thread[i].tID %>" />
-			</fieldset>
-			<p>
-			  <input type="submit" value="Message" class="btn btn-flat btn-blue no-radius"/>
-			</p>	
-			</form>
-			</li>
-		<% } %>			
-		<% } %>
+		<% if (messages_doc[0]) { %>
+			<% for(var i=0; i<messages_doc[0].thread.length; i++) {%>
+			messages_doc[0].thread[i] <%= messages_doc[0].thread[i] %>
+				<% if (cID) {%> 
+					messages_doc[0].thread[i].fID <%= messages_doc[0].thread[i].fID %>
+					user._id <%= user._id %>
+					<% if (true) {%> 			
+						<li>
+						<form id="form<%= i %>" method="post" action="/<%= user.username %>/user_message/" class="form-skin">
+						User: <%= messages_doc[0].thread[i].username %>
+						<label>cID:</label>
+						<fieldset>
+						  <input id="cID" type="text" name="cID" value="<%= cID %>" />
+						</fieldset>			
+						<label>fID:</label>
+						<fieldset>
+						  <input id="fID" type="text" name="fID" value="<%= cID %>" />
+						</fieldset>
+						<label>tID:</label>			
+						<fieldset>
+						  <input id="tID" type="text" name="tID" value="<%= messages_doc[0].thread[i].tID %>" />
+						</fieldset>
+						<p>
+						  <input type="submit" value="Message" class="btn btn-flat btn-blue no-radius"/>
+						</p>	
+						</form>
+						</li>
+					<% } %>			
+				<% } %>
+			<% } %>		
+		<% } %>		
 		</ul>
     </section>
 </section>

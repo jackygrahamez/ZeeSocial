@@ -410,6 +410,7 @@ exports.user_next_message = function(req, res) {
 		message.findNextMessage(cID, function(message_doc) {
 			if(message_doc) {
 				console.log("user_next_message doc"+message_doc);
+				if (message_doc[0] && message_doc[0].thread) {
 				if (current_thread_length < message_doc[0].thread.length) {
 					i = parseInt(current_thread_length) + 1;			
 					if (message_doc[0].thread[i] && message_doc[0].thread[i]) {
@@ -417,6 +418,7 @@ exports.user_next_message = function(req, res) {
 						console.log("message_doc[0].thread[i] "+message_doc[0].thread[i]);
 						var ajaxMessage ="<li>" + message_doc[0].thread[i].username + ": " + message_doc[0].thread[i].message + "<br /> "+message_doc[0].thread[i].time+"</li>"; 
 						console.log(ajaxMessage);
+						res.send(ajaxMessage);	
 					}
 					else {
 						ajaxMessage = "";
@@ -426,9 +428,9 @@ exports.user_next_message = function(req, res) {
 				else {
 				ajaxMessage = "";
 				console.log("ajaxMessage is blank");
-				}
-				res.send(ajaxMessage);		
+				}	
 			}
+			}	
 	    });
 	    });
 	    } else {
