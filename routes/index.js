@@ -360,28 +360,30 @@ exports.user_message = function(req, res) {
 		if (req.params.username == username.username) {      	
 	    account.findById(req.session.accountId, function(doc) {
 	    	message.findMessages(tID, fID, function(message_doc) {
-	    		console.log("message_doc "+message_doc);
-    			if (message_doc[0] && message_doc[0].thread) {  			
-		    	res.render('user_message', {
-		          title: 'ZeeSocial',
-		          user: doc,
-		          message_doc: message_doc,
-		          cID: cID,
-		          tID: tID,
-		          fID: fID,
-				  pagename: 'user_message'
-		        });
-    			} else {
-		    	  res.render('user_message', {
-		          title: 'ZeeSocial',
-		          user: doc,
-		          message_doc: "",
-		          cID: cID,
-		          tID: tID,
-		          fID: fID,
-				  pagename: 'user_message'
-		        });
-    			}
+	    		if (message_doc) {
+		    		console.log("message_doc "+message_doc);
+	    			if (message_doc[0] && message_doc[0].thread) {  			
+			    	res.render('user_message', {
+			          title: 'ZeeSocial',
+			          user: doc,
+			          message_doc: message_doc,
+			          cID: cID,
+			          tID: tID,
+			          fID: fID,
+					  pagename: 'user_message'
+			        });
+	    			} else {
+			    	  res.render('user_message', {
+			          title: 'ZeeSocial',
+			          user: doc,
+			          message_doc: "",
+			          cID: cID,
+			          tID: tID,
+			          fID: fID,
+					  pagename: 'user_message'
+			        });
+	    			}
+	    		}
 	    	 });
 	    });
 	    } else {
@@ -406,25 +408,27 @@ exports.user_next_message = function(req, res) {
 	if (req.params.username == username.username) {      	
 	account.findById(req.session.accountId, function(doc) {
 		message.findNextMessage(cID, function(message_doc) {
-			console.log("user_next_message doc"+message_doc);
-			if (current_thread_length < message_doc[0].thread.length) {
-				i = parseInt(current_thread_length) + 1;			
-				if (message_doc[0].thread[i] && message_doc[0].thread[i]) {
-					console.log("current_thread_length is less than message_doc[0].thread.length");
-					console.log("message_doc[0].thread[i] "+message_doc[0].thread[i]);
-					var ajaxMessage ="<li>" + message_doc[0].thread[i].username + ": " + message_doc[0].thread[i].message + "<br /> "+message_doc[0].thread[i].time+"</li>"; 
-					console.log(ajaxMessage);
+			if(message_doc) {
+				console.log("user_next_message doc"+message_doc);
+				if (current_thread_length < message_doc[0].thread.length) {
+					i = parseInt(current_thread_length) + 1;			
+					if (message_doc[0].thread[i] && message_doc[0].thread[i]) {
+						console.log("current_thread_length is less than message_doc[0].thread.length");
+						console.log("message_doc[0].thread[i] "+message_doc[0].thread[i]);
+						var ajaxMessage ="<li>" + message_doc[0].thread[i].username + ": " + message_doc[0].thread[i].message + "<br /> "+message_doc[0].thread[i].time+"</li>"; 
+						console.log(ajaxMessage);
+					}
+					else {
+						ajaxMessage = "";
+						console.log("ajaxMessage is blank");				
+					}
 				}
 				else {
-					ajaxMessage = "";
-					console.log("ajaxMessage is blank");				
+				ajaxMessage = "";
+				console.log("ajaxMessage is blank");
 				}
+				res.send(ajaxMessage);		
 			}
-			else {
-			ajaxMessage = "";
-			console.log("ajaxMessage is blank");
-			}
-			res.send(ajaxMessage);			
 	    });
 	    });
 	    } else {

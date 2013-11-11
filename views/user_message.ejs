@@ -58,11 +58,9 @@
 			fIDString = $("#fID").val();
 		postMessage(messageString, cIDString, tIDString, fIDString);
       });
-      
       setInterval(function(){
       	getNextMessage();
       },3000);
-      
 	});     
      function postMessage(messageString, cIDString, tIDString, fIDString) {
 		if((messageString.length > 0) && (cIDString.length > 0) && (tIDString.length > 0) && (fIDString.length > 0)) {
