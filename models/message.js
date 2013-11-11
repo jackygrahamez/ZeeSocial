@@ -43,24 +43,7 @@
 	  	userMessage.message = user_message;	  	
 	  	userMessage.time = time;
 	  	
-		  /*	  	
-	    var userMessage = new message({
-			fID: fID,
-			tID: tID,
-			username: username,
-			message: user_message,
-			time: time,
-			counter: counter 
-	  	});
 
-	    message.update(
-	    		{"_id" : cID},
-	    		{"$push" : {thread : userMessage }},
-	    		{upsert: true},
-	    		function(err,update_message_thread) {  	
-		        callback(update_message_thread);
-		});
-	   */
 	    message.update(
 	    		{"_id" : cID},
 	    		{"$push" : { 'thread' : userMessage }},
@@ -88,8 +71,7 @@
 
   var findMessagesFrom = function(cID, callback) {
 	  console.log("findMessage "+cID);
-	  message.aggregate(
-			    { $group: { _id: { fID: "$fID", username: "$username" } } },
+	  message.find(	{"_id" :  cID},
 			    function(err, doc) {
 			        console.log(doc);
 			        callback(doc);

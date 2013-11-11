@@ -7,7 +7,7 @@
     </header>
     <section class="bordered">
 		<ul>
-		<% for(var i=0; i<messages_doc.length; i++) {%>
+		<% for(var i=0; i<messages_doc[0].thread.length; i++) {%>
 			<% if (cID) {%> 
 			<li>
 			<form id="form<%= i %>" method="post" action="/<%= user.username %>/user_message/" class="form-skin">
@@ -22,7 +22,7 @@
 			</fieldset>
 			<label>tID:</label>			
 			<fieldset>
-			  <input id="tID" type="text" name="tID" value="<%= messages_doc[i]._id.fID %>" />
+			  <input id="tID" type="text" name="tID" value="<%= messages_doc[0].thread[i].tID %>" />
 			</fieldset>
 			<p>
 			  <input type="submit" value="Message" class="btn btn-flat btn-blue no-radius"/>
