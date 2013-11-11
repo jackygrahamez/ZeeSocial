@@ -107,34 +107,39 @@ exports.user_check_in = function(req, res) {
     
   if ( req.session.loggedIn ) {
 	console.log("user logged in");
-    account.findById(req.session.accountId, function(doc) {
-
-    	if (location == null | location.length == 0) {
-            res.render('user_check_in', {
-                title: 'ZeeSocial',
-                user: doc,
-      		  	pagename: 'user_check_in',
-          		checkin_status: ''
-              });    		
-    	}
-    	else {
-    		 account.checkInMethod(location, geolocation, line_length, req.session.accountId, function(err) {
-    			 console.log("callback");
-            if (err) {
-              return console.log(err);
-            }
-			message.removeCheckinMessages(doc.check_in.cID, function(remove_messages_doc) {
+	account.findUsernameById(req.session.accountId, function(username) {
+		if (req.params.username == username.username) {
+	    account.findById(req.session.accountId, function(doc) {
+	
+	    	if (location == null | location.length == 0) {
 	            res.render('user_check_in', {
 	                title: 'ZeeSocial',
 	                user: doc,
 	      		  	pagename: 'user_check_in',
-	      		  	checkin_status: 'checked in'
-	              });
-          	});      		                             
-          });      		
-    	}
+	          		checkin_status: ''
+	              });    		
+	    	}
+	    	else {
+	    		 account.checkInMethod(location, geolocation, line_length, req.session.accountId, function(err) {
+	    			 console.log("callback");
+	            if (err) {
+	              return console.log(err);
+	            }
+				message.removeCheckinMessages(doc.check_in.cID, function(remove_messages_doc) {
+		            res.render('user_check_in', {
+		                title: 'ZeeSocial',
+		                user: doc,
+		      		  	pagename: 'user_check_in',
+		      		  	checkin_status: 'checked in'
+		              });
+	          	});      		                             
+	          });      		
+	    	}
+	    });
+	    } else {
+	    	res.redirect('/' +username.username);
+	    }
     });
-
   } else {
 
     res.send(401);
@@ -146,7 +151,8 @@ exports.user_lines = function(req, res) {
 
   if ( req.session.loggedIn ) {
 	
-
+	account.findUsernameById(req.session.accountId, function(username) {
+		if (req.params.username == username.username) {
 	    account.findById(req.session.accountId, function(doc) {
 		console.log("doc "+doc);
 	    if (!doc.check_in) {
@@ -167,7 +173,13 @@ exports.user_lines = function(req, res) {
 	        });
 
 	    });		
+	    
+	    });
+	    } else {
+	    	res.redirect('/' +username.username);
+	    }	    
 	});
+	
 
   } else {
 
@@ -179,7 +191,8 @@ exports.user_lines = function(req, res) {
 exports.user_notifications = function(req, res) {
 
   if ( req.session.loggedIn ) {
-
+	account.findUsernameById(req.session.accountId, function(username) {
+		if (req.params.username == username.username) {
     account.findById(req.session.accountId, function(doc) {
     	console.log("doc "+doc);
 	    if (!doc.check_in) {
@@ -198,6 +211,11 @@ exports.user_notifications = function(req, res) {
 	        });
     	
     	});
+    	
+	    });
+	    } else {
+	    	res.redirect('/' +username.username);
+	    }	        	
     });
 
   } else {
@@ -210,7 +228,8 @@ exports.user_notifications = function(req, res) {
 exports.user_points = function(req, res) {
 
 	  if ( req.session.loggedIn ) {
-
+	account.findUsernameById(req.session.accountId, function(username) {
+		if (req.params.username == username.username) {
 	    account.findById(req.session.accountId, function(doc) {
 
 	        res.render('user_points', {
@@ -218,7 +237,10 @@ exports.user_points = function(req, res) {
 	          user: doc,
 			  pagename: 'user_points'
 	        });
-
+	    });
+	    } else {
+	    	res.redirect('/' +username.username);
+	    }	  
 	    });
 
 	  } else {
@@ -233,6 +255,8 @@ exports.ajax = function(req, res) {
     field2  = req.param('field2', '');
     
   if ( req.session.loggedIn ) {
+	account.findUsernameById(req.session.accountId, function(username) {
+		if (req.params.username == username.username) {  
 	console.log("user logged in");
     account.findById(req.session.accountId, function(doc) {
 
@@ -250,16 +274,13 @@ exports.ajax = function(req, res) {
               return console.log(err);
             }
             res.send("<p>test block</p>");
-            /*
-            res.render('ajax', {
-                title: 'ZeeSocial',
-                user: doc,
-      		  	pagename: 'ajax'
-              });
-            */
             
           });      		
     	}
+	    });
+	    } else {
+	    	res.redirect('/' +username.username);
+	    }	      	
     });
 
   } else {
@@ -273,7 +294,8 @@ exports.ajax = function(req, res) {
 exports.user_profile = function(req, res) {
 
   if ( req.session.loggedIn ) {
-
+	account.findUsernameById(req.session.accountId, function(username) {
+		if (req.params.username == username.username) {  
     account.findById(req.session.accountId, function(doc) {
 
         res.render('user_profile', {
@@ -281,7 +303,10 @@ exports.user_profile = function(req, res) {
           user: doc,
 		  pagename: 'user_profile'
         });
-
+	    });
+	    } else {
+	    	res.redirect('/' +username.username);
+	    }	  
     });
 
   } else {
@@ -303,8 +328,9 @@ exports.user_message = function(req, res) {
 	        
 		
     if ((cID.length > 1) && (fID.length > 1) && (tID.length > 1) && user_message.length > 0 ) {
+    	account.findUsernameById(req.session.accountId, function(username) {
+		if (req.params.username == username.username) {      	
     	account.findById(req.session.accountId, function(doc) {
-
     		message.sendMessages(cID, tID, fID, doc.name.first, user_message, time, function(message_doc) {
     			if (message_doc[0] && message_doc[0].thread) {
     			counter = message_doc[0].thread.length;
@@ -323,11 +349,16 @@ exports.user_message = function(req, res) {
 
     		});
     	});
+	    } else {
+	    	res.redirect('/' +username.username);
+	    }	 
+    	});    	
         return;
         
     } else if ((cID.length > 1) && (fID.length > 1) && (tID.length > 1) && user_message.length < 1 ) {
+    	account.findUsernameById(req.session.accountId, function(username) {
+		if (req.params.username == username.username) {      	
 	    account.findById(req.session.accountId, function(doc) {
-
 	    	message.findMessages(tID, fID, function(message_doc) {
 	    		console.log("message_doc "+message_doc);
     			if (message_doc[0] && message_doc[0].thread) {  			
@@ -353,6 +384,10 @@ exports.user_message = function(req, res) {
     			}
 	    	 });
 	    });
+	    } else {
+	    	res.redirect('/' +username.username);
+	    }	 
+    	});   	    
     	return;  	
     }
     else {
@@ -363,11 +398,12 @@ exports.user_message = function(req, res) {
 }
 
 exports.user_next_message = function(req, res) {
-var cID = req.param('cID', ''),
+	var cID = req.param('cID', ''),
 	current_thread_length = req.param('current_thread_length', '');
 
   if ( req.session.loggedIn ) {
-
+	account.findUsernameById(req.session.accountId, function(username) {
+	if (req.params.username == username.username) {      	
 	account.findById(req.session.accountId, function(doc) {
 		message.findNextMessage(cID, function(message_doc) {
 			console.log("user_next_message doc"+message_doc);
@@ -390,6 +426,10 @@ var cID = req.param('cID', ''),
 			}
 			res.send(ajaxMessage);			
 	    });
+	    });
+	    } else {
+	    	res.redirect('/' +username.username);
+	    }	 	    
     });
 
   } else {
