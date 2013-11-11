@@ -1,0 +1,10 @@
+db.messages.aggregate([ 
+{"$group": { _id:{"thread":"$thread.fID"} } }
+]);   
+
+db.messages.aggregate([ 
+{"$group": { _id:"$thread.fID" } },
+{$sort:{_id:-1}},
+{$group:{_id:"$_id"}}
+]);   
+
